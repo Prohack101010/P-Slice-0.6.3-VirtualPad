@@ -13,7 +13,7 @@ haxelib install flixel-ui 2.5.0
 haxelib install flixel-tools 1.5.1
 haxelib install tjson 1.4.0
 haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp.git
-haxelib git hxCodec https://github.com/Prohack101010/hxCodec-2.6.0-with-MP4Handler #I love my hxCodec because it's using MP4Handler
+haxelib git hxCodec https://github.com/polybiusproxy/hxCodec.git 0a51aed0d9523d22a83e453ce7b593ec7fed4742
 haxelib git flxanimate https://github.com/Psych-Slice/FlxAnimate.git 18091dfeb629ba2805a5f3e10f5de80433080359
 haxelib git linc_luajit https://github.com/MobilePorting/linc_luajit-0.6.3
 haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc f9353b9edce10f4605d125dd1bda24ac36898bfb
