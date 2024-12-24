@@ -36,10 +36,6 @@ class FlashingState extends MusicBeatState
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
-
-		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad("NONE", "A_B");
-		#end
 	}
 
 	override function update(elapsed:Float)

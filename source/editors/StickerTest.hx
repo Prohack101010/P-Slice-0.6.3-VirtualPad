@@ -41,9 +41,6 @@ class StickerTest extends MusicBeatState {
         BG.updateHitbox();
         add(BG);
         addEditorBox();
-        #if TOUCH_CONTROLS_ALLOWED
-        addTouchPad("NONE", "B");
-        #end
         super.create();
     }
     var UI_box:FlxUITabMenu;
@@ -82,7 +79,7 @@ class StickerTest extends MusicBeatState {
         if(!stickerSetInput.hasFocus&&!stickerPackInput.hasFocus)
             {
                 enableVolume();
-                if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonB.justPressed || #end FlxG.keys.justPressed.ESCAPE){
+                if(FlxG.keys.justPressed.ESCAPE){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     FlxG.mouse.visible = false;
                     MusicBeatState.switchState(new MasterEditorMenu());

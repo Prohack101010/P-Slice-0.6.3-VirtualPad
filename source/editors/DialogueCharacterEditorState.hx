@@ -175,10 +175,6 @@ class DialogueCharacterEditorState extends MusicBeatState
 		FlxG.mouse.visible = true;
 		updateCharTypeBox();
 
-		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad("DIALOGUE_PORTRAIT", "DIALOGUE_PORTRAIT");
-		addTouchPadCamera();
-		#end
 		super.create();
 	}
 
@@ -549,7 +545,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 			FlxG.sound.muteKeys = TitleState.muteKeys;
 			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonA.justPressed || #end FlxG.keys.justPressed.SPACE && UI_mainbox.selected_tab_id == 'Character') {
+			if(FlxG.keys.justPressed.SPACE && UI_mainbox.selected_tab_id == 'Character') {
 				character.playAnim(character.jsonFile.animations[curAnim].anim);
 				daText.resetDialogue();
 				updateTextBox();
@@ -558,7 +554,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 			//lots of Ifs lol get trolled
 			var offsetAdd:Int = 1;
 			var speed:Float = 300;
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonZ.pressed || #end FlxG.keys.pressed.SHIFT) {
+			if(FlxG.keys.pressed.SHIFT) {
 				speed = 1200;
 				offsetAdd = 10;
 			}
@@ -578,8 +574,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 			if(UI_mainbox.selected_tab_id == 'Animations' && curSelectedAnim != null && character.dialogueAnimations.exists(curSelectedAnim)) {
 				var moved:Bool = false;
 				var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
-				var controlArrayLoop:Array<Bool> = [FlxG.keys.justPressed.A #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonLeft2.justPressed #end, FlxG.keys.justPressed.W #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonUp2.justPressed #end, FlxG.keys.justPressed.D #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonRight2.justPressed #end, FlxG.keys.justPressed.S #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonDown2.justPressed #end];
-				var controlArrayIdle:Array<Bool> = [FlxG.keys.justPressed.LEFT #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonLeft.justPressed #end, FlxG.keys.justPressed.UP #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonUp.justPressed #end, FlxG.keys.justPressed.RIGHT #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonRight.justPressed #end, FlxG.keys.justPressed.DOWN #if TOUCH_CONTROLS_ALLOWED || touchPad.buttonDown.justPressed #end];
+				var controlArrayLoop:Array<Bool> = [FlxG.keys.justPressed.A, FlxG.keys.justPressed.W, FlxG.keys.justPressed.D, FlxG.keys.justPressed.S];
+				var controlArrayIdle:Array<Bool> = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.DOWN];
 				for (i in 0...controlArrayLoop.length) {
 					if(controlArrayLoop[i]) {
 						if(i % 2 == 1) {
@@ -617,7 +613,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 				camGame.zoom += elapsed * camGame.zoom;
 				if(camGame.zoom > 1) camGame.zoom = 1;
 			}
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonY.justPressed || #end FlxG.keys.justPressed.H) {
+			if(FlxG.keys.justPressed.H) {
 				if(UI_mainbox.selected_tab_id == 'Animations') {
 					currentGhosts++;
 					if(currentGhosts > 2) currentGhosts = 0;
@@ -630,7 +626,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 					hudGroup.visible = !hudGroup.visible;
 				}
 			}
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonX.justPressed || #end FlxG.keys.justPressed.R) {
+			if(FlxG.keys.justPressed.R) {
 				camGame.zoom = 1;
 				mainGroup.setPosition(0, 0);
 				hudGroup.visible = true;
@@ -697,7 +693,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 				}
 			}
 
-			if(#if android FlxG.android.justPressed.BACK || #elseif TOUCH_CONTROLS_ALLOWED touchPad.buttonB.justPressed || #end FlxG.keys.justPressed.ESCAPE) {
+			if(#if android FlxG.android.justPressed.BACK || #end FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 				transitioning = true;

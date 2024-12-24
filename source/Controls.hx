@@ -261,17 +261,17 @@ class Controls extends FlxActionSet
 	public var ACCEPT(get, never):Bool;
 
 	inline function get_ACCEPT()
-		return _accept.check() || mobileControlsJustPressed(MobileInputID.A);
+		return _accept.check();
 
 	public var BACK(get, never):Bool;
 
 	inline function get_BACK()
-		return _back.check() || mobileControlsJustPressed(MobileInputID.B);
+		return _back.check();
 
 	public var PAUSE(get, never):Bool;
 
 	inline function get_PAUSE()
-		return _pause.check() || mobileControlsJustPressed(MobileInputID.P);
+		return _pause.check();
 
 	public var RESET(get, never):Bool;
 
@@ -281,7 +281,7 @@ class Controls extends FlxActionSet
 	public var FAVORITE(get, never):Bool;
 
     inline function get_FAVORITE()
-        return _favorite.check() || mobileControlsJustPressed(MobileInputID.F);
+        return _favorite.check();
 
 	public var BAR_LEFT(get, never):Bool;
 
@@ -302,21 +302,6 @@ class Controls extends FlxActionSet
 
 	inline function get_CHAR_SELECT()
         return _char_select.check();
-
-	public var mobileC(get, never):Bool;
-
-	@:noCompletion
-	private function get_mobileC():Bool
-	{
-		#if TOUCH_CONTROLS_ALLOWED
-		if (ClientPrefs.controlsAlpha >= 0.1)
-			return true;
-		else
-			return false;
-		#else
-		return false;
-		#end
-	}
 
 	public static var instance:Controls;
 
@@ -920,130 +905,5 @@ class Controls extends FlxActionSet
 	inline static function isGamepad(input:FlxActionInput, deviceID:Int)
 	{
 		return input.device == GAMEPAD && (deviceID == FlxInputDeviceID.ALL || input.deviceID == deviceID);
-	}
-
-	public function mobileControlsJustPressed(id:MobileInputID):Bool
-	{
-		#if TOUCH_CONTROLS_ALLOWED
-		final state:MusicBeatState = MusicBeatState.getState();
-		final substate:MusicBeatSubstate = MusicBeatSubstate.instance;
-		var bools:Array<Bool> = [false, false, false, false];
-
-		if (state != null)
-		{
-			if (state.touchPad != null)
-				bools[0] = state.touchPad.buttonJustPressed(id);
-
-			if (state.hitbox != null)
-				bools[1] = state.hitbox.buttonJustPressed(id);
-		}
-
-		if (substate != null)
-		{
-			if (substate.touchPad != null)
-				bools[2] = substate.touchPad.buttonJustPressed(id);
-
-			if (substate.hitbox != null)
-				bools[3] = substate.hitbox.buttonJustPressed(id);
-		}	
-
-		return bools.contains(true);
-		#else
-		return false;
-		#end
-	}
-
-	public function mobileControlsJustReleased(id:MobileInputID):Bool
-	{
-		#if TOUCH_CONTROLS_ALLOWED
-		final state:MusicBeatState = MusicBeatState.getState();
-		final substate:MusicBeatSubstate = MusicBeatSubstate.instance;
-		var bools:Array<Bool> = [false, false, false, false];
-
-		if (state != null)
-		{
-			if (state.touchPad != null)
-				bools[0] = state.touchPad.buttonJustReleased(id);
-
-			if (state.hitbox != null)
-				bools[1] = state.hitbox.buttonJustReleased(id);
-		}
-
-		if (substate != null)
-		{
-			if (substate.touchPad != null)
-				bools[2] = substate.touchPad.buttonJustReleased(id);
-
-			if (substate.hitbox != null)
-				bools[3] = substate.hitbox.buttonJustReleased(id);
-		}	
-
-		return bools.contains(true);
-		#else
-		return false;
-		#end
-	}
-
-	public function mobileControlsPressed(id:MobileInputID):Bool
-	{
-		#if TOUCH_CONTROLS_ALLOWED
-		final state:MusicBeatState = MusicBeatState.getState();
-		final substate:MusicBeatSubstate = MusicBeatSubstate.instance;
-		var bools:Array<Bool> = [false, false, false, false];
-
-		if (state != null)
-		{
-			if (state.touchPad != null)
-				bools[0] = state.touchPad.buttonPressed(id);
-
-			if (state.hitbox != null)
-				bools[1] = state.hitbox.buttonPressed(id);
-		}
-
-		if (substate != null)
-		{
-			if (substate.touchPad != null)
-				bools[2] = substate.touchPad.buttonPressed(id);
-
-			if (substate.hitbox != null)
-				bools[3] = substate.hitbox.buttonPressed(id);
-		}	
-
-		return bools.contains(true);
-		#else
-		return false;
-		#end
-	}
-
-	// this one probably useless b
-	public function mobileControlsReleased(id:MobileInputID):Bool
-	{
-		#if TOUCH_CONTROLS_ALLOWED
-		final state:MusicBeatState = MusicBeatState.getState();
-		final substate:MusicBeatSubstate = MusicBeatSubstate.instance;
-		var bools:Array<Bool> = [false, false, false, false];
-
-		if (state != null)
-		{
-			if (state.touchPad != null)
-				bools[0] = state.touchPad.buttonReleased(id);
-
-			if (state.hitbox != null)
-				bools[1] = state.hitbox.buttonReleased(id);
-		}
-
-		if (substate != null)
-		{
-			if (substate.touchPad != null)
-				bools[2] = substate.touchPad.buttonReleased(id);
-
-			if (substate.hitbox != null)
-				bools[3] = substate.hitbox.buttonReleased(id);
-		}	
-
-		return bools.contains(true);
-		#else
-		return false;
-		#end
 	}
 }

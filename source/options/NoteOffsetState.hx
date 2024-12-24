@@ -296,7 +296,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonC.justPressed || #end controls.RESET)
+			if(controls.RESET)
 			{
 				for (i in 0...ClientPrefs.comboOffset.length)
 				{
@@ -334,7 +334,7 @@ class NoteOffsetState extends MusicBeatState
 				updateNoteDelay();
 			}
 
-			if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonC.justPressed || #end controls.RESET)
+			if(controls.RESET)
 			{
 				holdTime = 0;
 				barPercent = 0;
@@ -468,12 +468,6 @@ class NoteOffsetState extends MusicBeatState
 		timeBar.visible = !onComboMenu;
 		timeTxt.visible = !onComboMenu;
 		beatText.visible = !onComboMenu;
-
-		#if TOUCH_CONTROLS_ALLOWED
-		removeTouchPad();
-		addTouchPad(onComboMenu ? "NONE" : "LEFT_RIGHT", "A_B_C");
-		addTouchPadCamera();
-		#end
 
 		if(onComboMenu)
 			changeModeText.text = '< Combo Offset (Press $buttonAccept to Switch) >';

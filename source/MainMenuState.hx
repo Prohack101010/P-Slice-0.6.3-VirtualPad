@@ -135,10 +135,6 @@ class MainMenuState extends MusicBeatState
 		#end
 		#end
 
-		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad("UP_DOWN", "A_B_E");
-		#end
-
 		super.create();
 
 		FlxG.camera.follow(camFollow, null, 0.06);
@@ -250,7 +246,7 @@ class MainMenuState extends MusicBeatState
 					}
 				}
 			}
-			else if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonE.justPressed || #end FlxG.keys.anyJustPressed(debugKeys))
+			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
 				FlxTransitionableState.skipNextTransIn = false;

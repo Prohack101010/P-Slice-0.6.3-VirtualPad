@@ -93,10 +93,6 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 
-		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad('UP_DOWN', 'A_B');
-		#end
-
 		super.create();
 	}
 
@@ -105,11 +101,6 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 		controls.isInSubstate = false;
 		persistentUpdate = true;
-		
-		#if TOUCH_CONTROLS_ALLOWED
-		removeTouchPad();
-		addTouchPad('UP_DOWN', 'A_B');
-		#end
 	}
 
 	override function update(elapsed:Float) {

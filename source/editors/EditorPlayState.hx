@@ -111,17 +111,6 @@ class EditorPlayState extends MusicBeatState
 		else
 			vocals = new FlxSound();
 
-		#if TOUCH_CONTROLS_ALLOWED
-		#if !android
-		addTouchPad("NONE", "P");
-		addTouchPadCamera();
-		#end
-		addHitbox();
-		hitbox.visible = #if !android touchPad.visible = #end true;
-		hitbox.onHintDown.add(onHintPress);
-		hitbox.onHintUp.add(onHintRelease);
-		#end
-
 		generateSong(PlayState.SONG.song);
 		#if (LUA_ALLOWED && MODS_ALLOWED)
 		for (notetype in noteTypeMap.keys()) {
@@ -337,9 +326,8 @@ class EditorPlayState extends MusicBeatState
 	public var noteKillOffset:Float = 350;
 	public var spawnTime:Float = 2000;
 	override function update(elapsed:Float) {
-		if (#if android FlxG.android.justReleased.BACK || #elseif TOUCH_CONTROLS_ALLOWED touchPad.buttonP.justPressed || #end FlxG.keys.justPressed.ESCAPE)
+		if (#if android FlxG.android.justReleased.BACK || #end FlxG.keys.justPressed.ESCAPE)
 		{
-			#if TOUCH_CONTROLS_ALLOWED hitbox.visible = #if !android touchPad.visible = #end false; #end
 			FlxG.sound.music.pause();
 			vocals.pause();
 			LoadingState.loadAndSwitchState(new editors.ChartingState());
@@ -680,95 +668,6 @@ class EditorPlayState extends MusicBeatState
 		}
 		return -1;
 	}
-
-	#if TOUCH_CONTROLS_ALLOWED
-	private function onHintPress(button:TouchButton):Void
-	{
-		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
-
-		if (buttonCode > -1 && button.justPressed)
-		{
-			if(generatedMusic)
-			{
-				//more accurate hit time for the ratings?
-				var lastTime:Float = Conductor.songPosition;
-				Conductor.songPosition = FlxG.sound.music.time;
-
-				var canMiss:Bool = !ClientPrefs.ghostTapping;
-
-				// heavily based on my own code LOL if it aint broke dont fix it
-				var pressNotes:Array<Note> = [];
-				//var notesDatas:Array<Int> = [];
-				var notesStopped:Bool = false;
-
-				//trace('test!');
-				var sortedNotesList:Array<Note> = [];
-				notes.forEachAlive(function(daNote:Note)
-				{
-					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote)
-					{
-						if(daNote.noteData == buttonCode)
-						{
-							sortedNotesList.push(daNote);
-							//notesDatas.push(daNote.noteData);
-						}
-						canMiss = true;
-					}
-				});
-				sortedNotesList.sort(sortHitNotes);
-
-				if (sortedNotesList.length > 0) {
-					for (epicNote in sortedNotesList)
-					{
-						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								if (!ClientPrefs.lowQuality) doubleNote.kill();
-								notes.remove(doubleNote, true);
-								doubleNote.destroy();
-							} else
-								notesStopped = true;
-						}
-
-						// eee jack detection before was not super good
-						if (!notesStopped) {
-							goodNoteHit(epicNote);
-							pressNotes.push(epicNote);
-						}
-
-					}
-				}
-				else if (canMiss && ClientPrefs.ghostTapping) {
-					noteMiss();
-				}
-
-				//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
-				Conductor.songPosition = lastTime;
-			}
-
-			var spr:StrumNote = playerStrums.members[buttonCode];
-			if(spr != null && spr.animation.curAnim.name != 'confirm')
-			{
-				spr.playAnim('pressed');
-				spr.resetAnim = 0;
-			}
-		}
-	}
-
-	private function onHintRelease(button:TouchButton):Void
-	{
-		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
-
-		if(buttonCode > -1)
-		{
-			var spr:StrumNote = playerStrums.members[buttonCode];
-			if(spr != null)
-			{
-				spr.playAnim('static');
-				spr.resetAnim = 0;
-			}
-		}
-	}
-	#end
 
 	private function keyShit():Void
 	{

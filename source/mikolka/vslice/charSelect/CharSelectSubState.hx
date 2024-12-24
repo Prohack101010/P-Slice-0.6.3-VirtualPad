@@ -438,11 +438,6 @@ class CharSelectSubState extends MusicBeatSubState
 
       Save.instance.oldChar = true;
     });
-
-    #if TOUCH_CONTROLS_ALLOWED
-    addTouchPad('LEFT_FULL', 'A_B');
-    addTouchPadCamera();
-    #end
   }
 
   function checkNewChar():Void
@@ -714,9 +709,6 @@ class CharSelectSubState extends MusicBeatSubState
             ));
         }
       });
-    #if TOUCH_CONTROLS_ALLOWED
-    FlxTween.tween(touchPad, {alpha: 0}, 0.8, {ease: FlxEase.expoOut});
-    #end
   }
 
   var holdTmrUp:Float = 0;

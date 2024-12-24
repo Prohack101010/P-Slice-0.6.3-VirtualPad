@@ -34,8 +34,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 	var externalPaths:Array<String> = StorageUtil.checkExternalPaths(true);
 	public static final lastStorageType:String = ClientPrefs.storageType;
 	#end
-	final exControlTypes:Array<String> = ["NONE", "SINGLE", "DOUBLE"];
-	final hintOptions:Array<String> = ["No Gradient", "No Gradient (Old)", "Gradient", "Hidden"];
 	var option:Option;
 
 	public function new()
@@ -44,25 +42,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 			storageTypes = storageTypes.concat(externalPaths); #end
 		title = 'Mobile Options';
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
-
-		option = new Option('Extra Hints', 'Select how many extra hints you prefer to have on hitbox?\nThey can be used for mechanics with LUA or HScript.',
-			'extraHints', 'string', 'NONE', exControlTypes);
-		addOption(option);
-
-		#if TOUCH_CONTROLS_ALLOWED
-		option = new Option('Mobile Controls Opacity',
-			'Selects the opacity for the mobile buttons (careful not to put it at 0 and lose track of your buttons).', 'controlsAlpha', 'percent', 60);
-		option.scrollSpeed = 1;
-		option.minValue = 0.001;
-		option.maxValue = 1;
-		option.changeValue = 0.1;
-		option.decimals = 1;
-		option.onChange = () ->
-		{
-			touchPad.alpha = curOption.getValue();
-		};
-		addOption(option);
-		#end
 
 		#if mobile
 		option = new Option('Allow Phone Screensaver',
@@ -76,13 +55,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		option.onChange = () -> FlxG.scaleMode = new MobileScaleMode();
 		addOption(option);
 		#end
-
-		option = new Option('Hitbox Design', 'Choose how your hitbox should look like.', 'hitboxType', 'string', 'Gradient', hintOptions);
-		addOption(option);
-
-		option = new Option('Hitbox Position', 'If checked, the hitbox will be put at the bottom of the screen, otherwise will stay at the top.',
-			'hitbox2', 'bool', true);
-		addOption(option);
 
 		#if android
 		option = new Option('Storage Type', 'Which folder Psych Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)', 'storageType', 'string',

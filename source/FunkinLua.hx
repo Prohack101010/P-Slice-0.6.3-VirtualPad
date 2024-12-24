@@ -33,7 +33,7 @@ import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
-import shaders.flixel.system.FlxShader;
+import flixel.system.FlxAssets.FlxShader;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -1424,30 +1424,15 @@ class FunkinLua {
 
 		Lua_helper.add_callback(lua, "keyboardJustPressed", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				#if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.justPressed || #end Reflect.getProperty(FlxG.keys.justPressed, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.justPressed, name);
-			}
+			return Reflect.getProperty(FlxG.keys.justPressed, name);
 		});
 		Lua_helper.add_callback(lua, "keyboardPressed", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				#if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.pressed || #end Reflect.getProperty(FlxG.keys.pressed, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.pressed, name);
-			}
+			return Reflect.getProperty(FlxG.keys.pressed, name);
 		});
 		Lua_helper.add_callback(lua, "keyboardReleased", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				#if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.justReleased || #end Reflect.getProperty(FlxG.keys.justReleased, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.justReleased, name);
-			}
+			return Reflect.getProperty(FlxG.keys.justReleased, name);
 		});
 
 		Lua_helper.add_callback(lua, "anyGamepadJustPressed", function(name:String)
@@ -1520,7 +1505,7 @@ class FunkinLua {
 				case 'back': key = PlayState.instance.getControl('BACK');
 				case 'pause': key = PlayState.instance.getControl('PAUSE');
 				case 'reset': key = PlayState.instance.getControl('RESET');
-				case 'space': key = #if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.justPressed || #end FlxG.keys.justPressed.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.justPressed.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
@@ -1531,7 +1516,7 @@ class FunkinLua {
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT');
-				case 'space': key = #if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.pressed || #end FlxG.keys.pressed.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.pressed.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
@@ -1542,7 +1527,7 @@ class FunkinLua {
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_R');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP_R');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT_R');
-				case 'space': key = #if TOUCH_CONTROLS_ALLOWED MusicBeatState.getState().hitbox.buttonExtra.justReleased || #end FlxG.keys.justReleased.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.justReleased.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
@@ -2804,74 +2789,6 @@ class FunkinLua {
 		});
 
 		#if TOUCH_CONTROLS_ALLOWED
-		Lua_helper.add_callback(lua, 'mobileC', Controls.instance.mobileC);
-
-		Lua_helper.add_callback(lua, 'mobileControlsMode', () -> {return 'hitbox';});
-
-		Lua_helper.add_callback(lua, "extraHintPressed", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.pressed;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.pressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraHintJustPressed", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.justPressed;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.justPressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraHintJustReleased", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.justReleased;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.justReleased;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraHintReleased", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.released;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.released;
-				}
-			}
-			return false;
-		});
-
 		Lua_helper.add_callback(lua, "vibrate", (?duration:Int, ?period:Int) ->
 		{
 			if (duration == null)
@@ -2880,70 +2797,7 @@ class FunkinLua {
 				period = 0;
 			return Haptic.vibrate(period, duration);
 		});
-
-		Lua_helper.add_callback(lua, "addTouchPad", (DPadMode:String, ActionMode:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1) ->
-		{
-			PlayState.instance.makeLuaTouchPad(DPadMode, ActionMode);
-			if (addToCustomSubstate)
-			{
-				if (PlayState.instance.luaTouchPad != null || !PlayState.instance.members.contains(PlayState.instance.luaTouchPad))
-					CustomSubstate.insertLuaTpad(posAtCustomSubstate);
-			}
-			else
-				PlayState.instance.addLuaTouchPad();
-		});
-
-		Lua_helper.add_callback(lua, "removeTouchPad", () ->
-		{
-			PlayState.instance.removeLuaTouchPad();
-		});
-
-		Lua_helper.add_callback(lua, "addTouchPadCamera", () ->
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				luaTrace('addTouchPadCamera: Touch Pad does not exist.');
-				return;
-			}
-			PlayState.instance.addLuaTouchPadCamera();
-		});
-
-		Lua_helper.add_callback(lua, "touchPadJustPressed", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadJustPressed(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadPressed", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadPressed(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadJustReleased", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadJustReleased(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadReleased", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadReleased(button);
-		});
-
+		
 		Lua_helper.add_callback(lua, "touchJustPressed", TouchUtil.justPressed);
 		Lua_helper.add_callback(lua, "touchPressed", TouchUtil.pressed);
 		Lua_helper.add_callback(lua, "touchJustReleased", TouchUtil.justReleased);
@@ -3067,75 +2921,6 @@ class FunkinLua {
 			}
 			return TouchUtil.overlapsComplex(obj, cam);
 		});
-
-		Lua_helper.add_callback(lua, "extraButtonPressed", (button:String) ->
-		{
-			luaTrace("extraButtonPressed is deprecated! Use extraHintPressed instead", false, true);
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.pressed;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.pressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonJustPressed", (button:String) ->
-		{
-			luaTrace("extraButtonJustPressed is deprecated! Use extraHintJustPressed instead", false, true);
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.justPressed;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.justPressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonJustReleased", (button:String) ->
-		{
-			luaTrace("extraButtonJustReleased is deprecated! Use extraHintJustReleased instead", false, true);
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.justReleased;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.justReleased;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonReleased", (button:String) ->
-		{
-			luaTrace("extraButtonReleased is deprecated! Use extraHintReleased instead", false, true);
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().hitbox != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().hitbox.buttonExtra2.released;
-					default:
-						return MusicBeatState.getState().hitbox.buttonExtra.released;
-				}
-			}
-			return false;
-		});
-		#end
 
 		#if android
 		// static var spicyPillow:AndroidBatteryManager = new AndroidBatteryManager();
@@ -3797,24 +3582,6 @@ class CustomSubstate extends MusicBeatSubstate
 {
 	public static var name:String = 'unnamed';
 	public static var instance:CustomSubstate;
-
-	#if TOUCH_CONTROLS_ALLOWED
-	public static function insertLuaTpad(?pos:Int = -1)
-	{
-		if(instance != null)
-		{
-			var tagObject:FlxObject = PlayState.instance.luaTouchPad;
-
-			if(tagObject != null)
-			{
-				if(pos < 0) instance.add(tagObject);
-				else instance.insert(pos, tagObject);
-				return true;
-			}
-		}
-		return false;
-	}	
-	#end
 
 	override function create()
 	{

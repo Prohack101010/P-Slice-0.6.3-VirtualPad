@@ -7,10 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
-	// Mobile and Mobile Controls Releated
-	public static var extraHints:String = "NONE"; // hitbox extra hint option
-	public static var hitbox2:Bool = true; // hitbox extra button position option
-	public static var controlsAlpha:Float = FlxG.onMobile ? 0.6 : 0;
+	// Mobile Releated
 	public static var screensaver:Bool = false;
 	public static var wideScreen:Bool = false;
 	#if android
@@ -122,9 +119,6 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
-		FlxG.save.data.extraHints = extraHints;
-		FlxG.save.data.hitbox2 = hitbox2;
-		FlxG.save.data.controlsAlpha = controlsAlpha;
 		FlxG.save.data.screensaver = screensaver;
 		FlxG.save.data.wideScreen = wideScreen;
 		#if android
@@ -189,15 +183,6 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(FlxG.save.data.extraHints != null) {
-			extraHints = FlxG.save.data.extraHints;
-		}
-		if(FlxG.save.data.hitbox2 != null) {
-			hitbox2 = FlxG.save.data.hitbox2;
-		}
-		if(FlxG.save.data.controlsAlpha != null) {
-			controlsAlpha = FlxG.save.data.controlsAlpha;
-		}
 		if(FlxG.save.data.screensaver != null) {
 			screensaver = FlxG.save.data.screensaver;
 		}
