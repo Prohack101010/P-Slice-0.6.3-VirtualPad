@@ -295,6 +295,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 	button.solid = false;
 	button.immovable = true;
 	button.scrollFactor.set();
+	button.tag = Frames.toUpperCase();
 	button.alpha = orgAlpha;
 	if (colored) button.color = ColorS;
 	button.antialiasing = orgAntialiasing;

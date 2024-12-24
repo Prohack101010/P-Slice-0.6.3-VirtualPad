@@ -36,6 +36,11 @@ class FlxButton extends FlxTypedButton<FlxText>
 	 * Used with public variable status, means pressed (usually from touch click).
 	 */
 	public static inline var PRESSED:Int = 2;
+	
+	/**
+	 * A simple tag that returns the button's graphic name in upper case.
+	**/
+	public var tag:String;
 
 	/**
 	 * Shortcut to setting label.text

@@ -1606,13 +1606,13 @@ class FunkinLua {
 			}
 			//Fix Extra Controls
 			#if TOUCH_CONTROLS_ALLOWED
-			if (name == FunkinLua.extra1 || FunkinLua.extra1 == 'SPACE' && name == 'space' || FunkinLua.extra1 == 'SHIFT' && name == 'shift')
+			if (name == extra1 || extra1 == 'SPACE' && name == 'space' || extra1 == 'SHIFT' && name == 'shift')
 			    key = PlayState.instance.getControl('EXTRA1_P');
-		    if (name == FunkinLua.extra2 || FunkinLua.extra2 == 'SPACE' && name == 'space' || FunkinLua.extra2 == 'SHIFT' && name == 'shift')
+		    if (name == extra2 || extra2 == 'SPACE' && name == 'space' || extra2 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA2_P');
-		    if (name == FunkinLua.extra3 || FunkinLua.extra3 == 'SPACE' && name == 'space' || FunkinLua.extra3 == 'SHIFT' && name == 'shift')
+		    if (name == extra3 || extra3 == 'SPACE' && name == 'space' || extra3 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA3_P');
-		    if (name == FunkinLua.extra4 || FunkinLua.extra4 == 'SPACE' && name == 'space' || FunkinLua.extra4 == 'SHIFT' && name == 'shift')
+		    if (name == extra4 || extra4 == 'SPACE' && name == 'space' || extra4 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA4_P');
 		    #end
 			return key;
@@ -1632,13 +1632,13 @@ class FunkinLua {
 			}
 			//Fix Extra Controls
 			#if TOUCH_CONTROLS_ALLOWED
-			if (name == FunkinLua.extra1 || FunkinLua.extra1 == 'SPACE' && name == 'space' || FunkinLua.extra1 == 'SHIFT' && name == 'shift')
+			if (name == extra1 || extra1 == 'SPACE' && name == 'space' || extra1 == 'SHIFT' && name == 'shift')
 			    key = PlayState.instance.getControl('EXTRA1');
-		    if (name == FunkinLua.extra2 || FunkinLua.extra2 == 'SPACE' && name == 'space' || FunkinLua.extra2 == 'SHIFT' && name == 'shift')
+		    if (name == extra2 || extra2 == 'SPACE' && name == 'space' || extra2 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA2');
-		    if (name == FunkinLua.extra3 || FunkinLua.extra3 == 'SPACE' && name == 'space' || FunkinLua.extra3 == 'SHIFT' && name == 'shift')
+		    if (name == extra3 || extra3 == 'SPACE' && name == 'space' || extra3 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA3');
-		    if (name == FunkinLua.extra4 || FunkinLua.extra4 == 'SPACE' && name == 'space' || FunkinLua.extra4 == 'SHIFT' && name == 'shift')
+		    if (name == extra4 || extra4 == 'SPACE' && name == 'space' || extra4 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA4');
 		    #end
 			return key;
@@ -1658,13 +1658,13 @@ class FunkinLua {
 			}
 			//Fix Extra Controls
 			#if TOUCH_CONTROLS_ALLOWED
-			if (name == FunkinLua.extra1 || FunkinLua.extra1 == 'SPACE' && name == 'space' || FunkinLua.extra1 == 'SHIFT' && name == 'shift')
+			if (name == extra1 || extra1 == 'SPACE' && name == 'space' || extra1 == 'SHIFT' && name == 'shift')
 			    key = PlayState.instance.getControl('EXTRA1_R');
-		    if (name == FunkinLua.extra2 || FunkinLua.extra2 == 'SPACE' && name == 'space' || FunkinLua.extra2 == 'SHIFT' && name == 'shift')
+		    if (name == extra2 || extra2 == 'SPACE' && name == 'space' || extra2 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA2_R');
-		    if (name == FunkinLua.extra3 || FunkinLua.extra3 == 'SPACE' && name == 'space' || FunkinLua.extra3 == 'SHIFT' && name == 'shift')
+		    if (name == extra3 || extra3 == 'SPACE' && name == 'space' || extra3 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA3_R');
-		    if (name == FunkinLua.extra4 || FunkinLua.extra4 == 'SPACE' && name == 'space' || FunkinLua.extra4 == 'SHIFT' && name == 'shift')
+		    if (name == extra4 || extra4 == 'SPACE' && name == 'space' || extra4 == 'SHIFT' && name == 'shift')
 		        key = PlayState.instance.getControl('EXTRA4_R');
 		    #end
 			return key;

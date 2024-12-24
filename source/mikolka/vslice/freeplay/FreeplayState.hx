@@ -1440,7 +1440,7 @@ class FreeplayState extends MusicBeatSubstate
 			}
 			#if TOUCH_CONTROLS_ALLOWED
 			_virtualpad.alpha = 0;
-			FlxTween.tween(_virtualpad, {alpha: ClientPrefs.controlsAlpha}, 0.8, {ease: FlxEase.backIn});
+			FlxTween.tween(_virtualpad, {alpha: ClientPrefs.VirtualPadAlpha}, 0.8, {ease: FlxEase.backIn});
 			#end
 		}
 	}
