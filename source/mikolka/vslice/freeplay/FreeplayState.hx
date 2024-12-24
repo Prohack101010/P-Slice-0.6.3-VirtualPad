@@ -46,6 +46,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import mobile.flixel.FlxButton as FlxMobileButton;
 
 using mikolka.funkin.custom.FunkinTools;
 using mikolka.funkin.utils.ArrayTools;
@@ -758,9 +759,9 @@ class FreeplayState extends MusicBeatSubstate
 		}
 		else if (!fromCharSelect)
 		{
-			_virtualpad.forEachAlive(function(button:FlxButton)
+			_virtualpad.forEachAlive(function(button:FlxMobileButton)
 			{
-				if (button.tag == 'UP' || button.tag == 'DOWN')
+				if (button.tag == 'up' || button.tag == 'down')
 				{
 					button.x -= 350;
 					FlxTween.tween(button, {x: button.x + 350}, 0.6, {ease: FlxEase.backInOut});
@@ -1729,9 +1730,9 @@ class FreeplayState extends MusicBeatSubstate
 			backingCard?.disappear();
 
 			#if TOUCH_CONTROLS_ALLOWED
-			_virtualpad.forEachAlive(function(button:FlxButton)
+			_virtualpad.forEachAlive(function(button:FlxMobileButton)
 			{
-				if (button.tag == 'UP' || button.tag == 'DOWN')
+				if (button.tag == 'up' || button.tag == 'down')
 					FlxTween.tween(button, {x: button.x - 350}, 1.2, {ease: FlxEase.backOut});
 				else
 					FlxTween.tween(button, {x: button.x + 450}, 1.2, {ease: FlxEase.backOut});
