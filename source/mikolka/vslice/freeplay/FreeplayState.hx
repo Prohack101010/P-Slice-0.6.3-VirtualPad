@@ -519,7 +519,7 @@ class FreeplayState extends MusicBeatSubstate
 		charSelectHint.alignment = CENTER;
 		charSelectHint.font = "5by7";
 		charSelectHint.color = 0xFF5F5F5F;
-		charSelectHint.text = 'Press [ TAB ] to change characters'; // ?! ${controls.getDialogueNameFromControl(FREEPLAY_CHAR_SELECT, true)}
+		charSelectHint.text = controls.mobileC ? 'Touch on the DJ to change characters' : 'Press [ TAB ] to change characters'; // ?! ${controls.getDialogueNameFromControl(FREEPLAY_CHAR_SELECT, true)}
 		charSelectHint.y -= 100;
 		FlxTween.tween(charSelectHint, {y: charSelectHint.y + 100}, 0.8, {ease: FlxEase.quartOut});
 
@@ -746,6 +746,33 @@ class FreeplayState extends MusicBeatSubstate
 		{
 			rankCamera.fade(0xFF000000, 0, false, null, true);
 		}
+
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(UP_DOWN, A_B_F);
+		addVirtualPadCamera();
+		if (prepForNewRank)
+		{
+			final lastAlpha:Float = _virtualpad.alpha;
+			_virtualpad.alpha = 0;
+			FlxTween.tween(_virtualpad, {alpha: lastAlpha}, 1.6, {ease: FlxEase.circOut});
+		}
+		else if (!fromCharSelect)
+		{
+			_virtualpad.forEachAlive(function(button:TouchButton)
+			{
+				if (button.tag == 'UP' || button.tag == 'DOWN')
+				{
+					button.x -= 350;
+					FlxTween.tween(button, {x: button.x + 350}, 0.6, {ease: FlxEase.backInOut});
+				}
+				else
+				{
+					button.x += 450;
+					FlxTween.tween(button, {x: button.x - 450}, 0.6, {ease: FlxEase.backInOut});
+				}
+			});
+		}
+		#end
 
 		if (fromCharSelect == true)
 		{
@@ -1152,6 +1179,9 @@ class FreeplayState extends MusicBeatSubstate
 
 			rankCamera.zoom = 0.8;
 			funnyCam.zoom = 0.8;
+			#if TOUCH_CONTROLS_ALLOWED
+			IntervalShake.shake(_virtualpad, 0.6, 1 / 24, 0.24, 0, FlxEase.quadOut);
+			#end
 			FlxTween.tween(rankCamera, {"zoom": 1}, 1, {ease: FlxEase.elasticOut});
 			FlxTween.tween(funnyCam, {"zoom": 1}, 0.8, {ease: FlxEase.elasticOut});
 
@@ -1243,6 +1273,12 @@ class FreeplayState extends MusicBeatSubstate
 	{
 		super.closeSubState();
 		controls.isInSubstate = true;
+
+		#if TOUCH_CONTROLS_ALLOWED
+		removeVirtualPad();
+		addVirtualPad(UP_DOWN, A_B_F);
+		addVirtualPadCamera();
+		#end
 	}
 
 	function tryOpenCharSelect():Void
@@ -1331,6 +1367,9 @@ class FreeplayState extends MusicBeatSubstate
 				FlxTween.tween(spr, {y: moveDataY + spr.y}, moveDataSpeed, {ease: FlxEase.backIn});
 			}
 		}
+		#if TOUCH_CONTROLS_ALLOWED
+		FlxTween.tween(_virtualpad, {alpha: 0}, 0.6, {ease: FlxEase.backIn});
+		#end
 		backingCard?.enterCharSel();
 	}
 
@@ -1399,6 +1438,10 @@ class FreeplayState extends MusicBeatSubstate
 					}
 				});
 			}
+			#if TOUCH_CONTROLS_ALLOWED
+			_virtualpad.alpha = 0;
+			FlxTween.tween(_virtualpad, {alpha: ClientPrefs.controlsAlpha}, 0.8, {ease: FlxEase.backIn});
+			#end
 		}
 	}
 
@@ -1684,6 +1727,16 @@ class FreeplayState extends MusicBeatSubstate
 			// FlxTween.color(pinkBack, 0.25, pinkBack.color, 0xFFFFD0D5, {ease: FlxEase.quadOut});
 			// FlxTween.color(bgDad, 0.33, 0xFFFFFFFF, 0xFF555555, {ease: FlxEase.quadOut});
 			backingCard?.disappear();
+
+			#if TOUCH_CONTROLS_ALLOWED
+			_virtualpad.forEachAlive(function(button:TouchButton)
+			{
+				if (button.tag == 'UP' || button.tag == 'DOWN')
+					FlxTween.tween(button, {x: button.x - 350}, 1.2, {ease: FlxEase.backOut});
+				else
+					FlxTween.tween(button, {x: button.x + 450}, 1.2, {ease: FlxEase.backOut});
+			});
+			#end
 
 			for (grpSpr in exitMovers.keys())
 			{

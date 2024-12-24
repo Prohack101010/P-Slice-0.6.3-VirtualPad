@@ -52,6 +52,7 @@
 	<define name="COPYSTATE_ALLOWED" if="MODS_ALLOWED mobile"/>
 	<define name="TOUCH_CONTROLS_ALLOWED" if="mobile || web" />
 	<define name="TOUCH_HERE_TO_PLAY" if="TOUCH_CONTROLS_ALLOWED"/>
+	<architecture name="ARM64" exclude="ARMV7" if="32bits_disabled" /> <!-- Only Arm64 Build Because I dont want to wait 30 minute -->
 
 	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 	<define name="CHECK_FOR_UPDATES" />
@@ -116,6 +117,12 @@
 	<assets path="assets/week7"         library="week7"         exclude="*.ogg" if="web"/>
 	<assets path="assets/week7"         library="week7"         exclude="*.mp3" unless="web"/>
 	<assets path="assets/weekend1"      library="weekend1"   />
+	
+	<!-- Mobile Controls -->
+	<section if="TOUCH_CONTROLS_ALLOWED">
+	<assets path="mobile/preload"        rename="assets"/>
+	<assets path="mobile/preload"        rename="assets"/>
+	</section>
 	
 	<section if="MODS_ALLOWED">
 		<assets path='example_mods' rename='mods' embed='false'/>

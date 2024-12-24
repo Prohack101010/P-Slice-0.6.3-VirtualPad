@@ -23,8 +23,8 @@ class FlashingState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
-		final buttonBack:String = 'ESCAPE';
-		final buttonAccept:String = 'ENTER';
+		final buttonBack:String = #if TOUCH_CONTROLS_ALLOWED 'B' #else 'ESCAPE' #end;
+		final buttonAccept:String = #if TOUCH_CONTROLS_ALLOWED 'A' #else 'ENTER' #end;
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			'Hey, watch out!\n
@@ -36,6 +36,10 @@ class FlashingState extends MusicBeatState
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);
+
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(NONE, A_B);
+		#end
 	}
 
 	override function update(elapsed:Float)

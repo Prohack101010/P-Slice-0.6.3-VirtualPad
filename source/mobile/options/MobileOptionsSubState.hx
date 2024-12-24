@@ -143,7 +143,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 		try
 		{
-		    if (lastStorageType != "EXTERNAL")
+		    if (lastStorageType != 'EXTERNAL')
 			    Sys.command('rm', ['-rf', lastStoragePath]);
 		}
 		catch (e:haxe.Exception)
@@ -166,6 +166,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		if (ClientPrefs.storageType != lastStorageType)
 		{
 			onStorageChange();
+			ClientPrefs.saveSettings();
 			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
 			lime.system.System.exit(0);
 		}

@@ -134,7 +134,7 @@ jobs:
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
-        run: haxelib run lime build Project.xml android --app-version="4.0.0-${{ github.run_id}}" -D officialBuild
+        run: haxelib run lime build Project.xml android --app-version="4.0.0-${{ github.run_id}}" -D officialBuild -D 32bits_disabled
       - name: Publish Artifact
         uses: actions/upload-artifact@v4.3.4
         with:
