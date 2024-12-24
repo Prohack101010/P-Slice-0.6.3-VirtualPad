@@ -2921,6 +2921,7 @@ class FunkinLua {
 			}
 			return TouchUtil.overlapsComplex(obj, cam);
 		});
+		#end
 
 		#if android
 		// static var spicyPillow:AndroidBatteryManager = new AndroidBatteryManager();
