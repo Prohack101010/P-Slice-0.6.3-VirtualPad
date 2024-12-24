@@ -35,8 +35,10 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
-		if (label != "Adjust Delay and Combo")
+		if (label != "Adjust Delay and Combo") {
 			persistentUpdate = false;
+			removeVirtualPad();
+		}
 
 		switch(label) {
 			case 'Note Colors':

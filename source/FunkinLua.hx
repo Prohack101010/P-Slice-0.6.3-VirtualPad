@@ -1092,13 +1092,13 @@ class FunkinLua {
     		#end
            
 			if(killMe.length > 1) {
-				var coverMeInPiss:Dynamic = LuaUtils.getVarInArray(Type.resolveClass(classVar), killMe[0]);
+				var coverMeInPiss:Dynamic = getVarInArray(Type.resolveClass(classVar), killMe[0]);
 				for (i in 1...killMe.length-1) {
-					coverMeInPiss = LuaUtils.getVarInArray(coverMeInPiss, killMe[i]);
+					coverMeInPiss = getVarInArray(coverMeInPiss, killMe[i]);
 				}
-				return LuaUtils.getVarInArray(coverMeInPiss, killMe[killMe.length-1]);
+				return getVarInArray(coverMeInPiss, killMe[killMe.length-1]);
 			}
-			return LuaUtils.getVarInArray(Type.resolveClass(classVar), variable);
+			return getVarInArray(Type.resolveClass(classVar), variable);
 		});
 		Lua_helper.add_callback(lua, "setPropertyFromClass", function(classVar:String, variable:String, value:Dynamic) {
 			@:privateAccess
