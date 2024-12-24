@@ -12,6 +12,20 @@ import mobile.backend.SwipeUtil;
 import mobile.backend.TouchUtil;
 import mobile.backend.StorageUtil;
 
+// Mobile Things
+#if TOUCH_CONTROLS_ALLOWED
+import mobile.flixel.*;
+import mobile.states.*;
+import mobile.objects.*;
+import mobile.options.*;
+import mobile.backend.*;
+import mobile.substates.*;
+import mobile.backend.Data;
+import mobile.flixel.FlxHitbox;
+import mobile.flixel.FlxVirtualPad;
+import mobile.flixel.FlxNewHitbox;
+#end
+
 // Android
 #if android
 import android.content.Context as AndroidContext;

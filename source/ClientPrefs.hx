@@ -7,6 +7,23 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
+    // Mobile Controls Releated
+    #if TOUCH_CONTROLS_ALLOWED
+    public static var hitboxLocation:String = 'Bottom';
+    public static var hitboxmode:String = 'New';
+    public static var hitboxtype:String = 'Gradient';
+    public static var hitboxhint:Bool = false;
+    public static var VirtualPadAlpha:Float = 0.75;
+    public static var hitboxalpha:Float = 0.7;
+    
+    //  Extra Keys
+    public static var extraKeys:Int = 2;
+    public static var extraKeyReturn1:String = 'SHIFT';
+    public static var extraKeyReturn2:String = 'SPACE';
+    public static var extraKeyReturn3:String = 'Q';
+    public static var extraKeyReturn4:String = 'E';
+    #end
+    
 	// Mobile Releated
 	public static var screensaver:Bool = false;
 	public static var wideScreen:Bool = false;
@@ -119,6 +136,21 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+	    #if TOUCH_CONTROLS_ALLOWED
+        FlxG.save.data.hitboxLocation = hitboxLocation;
+        FlxG.save.data.hitboxhint = hitboxhint;
+        FlxG.save.data.hitboxmode = hitboxmode;
+        FlxG.save.data.hitboxtype = hitboxtype;
+        FlxG.save.data.VirtualPadAlpha = VirtualPadAlpha;
+        FlxG.save.data.hitboxalpha = hitboxalpha;
+        
+        FlxG.save.data.extraKeys = extraKeys;
+        FlxG.save.data.extraKeyReturn1 = extraKeyReturn1;
+        FlxG.save.data.extraKeyReturn2 = extraKeyReturn2;
+        FlxG.save.data.extraKeyReturn3 = extraKeyReturn3;
+        FlxG.save.data.extraKeyReturn4 = extraKeyReturn4;
+        #end
+	    
 		FlxG.save.data.screensaver = screensaver;
 		FlxG.save.data.wideScreen = wideScreen;
 		#if android
@@ -183,6 +215,31 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
+	    #if TOUCH_CONTROLS_ALLOWED
+        if(FlxG.save.data.hitboxLocation != null)
+        	hitboxLocation = FlxG.save.data.hitboxLocation;
+        if(FlxG.save.data.hitboxhint != null)
+        	hitboxhint = FlxG.save.data.hitboxhint;
+        if(FlxG.save.data.hitboxmode != null)
+        	hitboxmode = FlxG.save.data.hitboxmode;
+        if(FlxG.save.data.hitboxtype != null)
+        	hitboxtype = FlxG.save.data.hitboxtype;
+        if(FlxG.save.data.VirtualPadAlpha != null)
+        	VirtualPadAlpha = FlxG.save.data.VirtualPadAlpha;
+        if(FlxG.save.data.hitboxalpha != null)
+        	hitboxalpha = FlxG.save.data.hitboxalpha;
+        if(FlxG.save.data.extraKeys != null)
+        	extraKeys = FlxG.save.data.extraKeys;
+        if(FlxG.save.data.extraKeyReturn1 != null)
+        	extraKeyReturn1 = FlxG.save.data.extraKeyReturn1;
+        if(FlxG.save.data.extraKeyReturn2 != null)
+        	extraKeyReturn2 = FlxG.save.data.extraKeyReturn2;
+        if(FlxG.save.data.extraKeyReturn3 != null)
+        	extraKeyReturn3 = FlxG.save.data.extraKeyReturn3;
+        if(FlxG.save.data.extraKeyReturn4 != null)
+        	extraKeyReturn4 = FlxG.save.data.extraKeyReturn4;
+        #end
+	
 		if(FlxG.save.data.screensaver != null) {
 			screensaver = FlxG.save.data.screensaver;
 		}

@@ -11,6 +11,10 @@ import flixel.input.gamepad.FlxGamepadButton;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
 
+#if TOUCH_CONTROLS_ALLOWED
+import flixel.group.FlxGroup;
+import mobile.flixel.FlxVirtualPad;
+#end
 
 enum abstract Action(String) to String from String
 {
@@ -47,6 +51,22 @@ enum abstract Action(String) to String from String
 	var BAR_RIGHT = "bar_right";
 	var SCREENSHOT = "screenshot";
 	var CHAR_SELECT = "char_select";
+	
+	//Extra Mobile Controls
+	#if TOUCH_CONTROLS_ALLOWED
+	var EXTRA1 = 'extra1';
+	var EXTRA1_P = 'extra1-press';
+	var EXTRA1_R = 'extra1-release';
+	var EXTRA2 = 'extra2';
+	var EXTRA2_P = 'extra2-press';
+	var EXTRA2_R = 'extra2-release';
+	var EXTRA3 = 'extra3';
+	var EXTRA3_P = 'extra3-press';
+	var EXTRA3_R = 'extra3-release';
+	var EXTRA4 = 'extra4';
+	var EXTRA4_P = 'extra4-press';
+	var EXTRA4_R = 'extra4-release';
+    #end
 }
 
 enum Device
@@ -79,6 +99,14 @@ enum Control
 	BAR_RIGHT;
 	SCREENSHOT;
 	CHAR_SELECT;
+	
+	//Extra Mobile Controls
+	#if TOUCH_CONTROLS_ALLOWED
+	EXTRA1;
+	EXTRA2;
+	EXTRA3;
+	EXTRA4;
+    #end
 }
 
 enum KeyboardScheme
@@ -128,6 +156,22 @@ class Controls extends FlxActionSet
 	var _bar_right= new FlxActionDigital(Action.BAR_RIGHT);
 	var _screenshot= new FlxActionDigital(Action.SCREENSHOT);
 	var _char_select= new FlxActionDigital(Action.CHAR_SELECT);
+	
+	//Extra Mobile Controls
+	#if TOUCH_CONTROLS_ALLOWED
+	var _extra1 = new FlxActionDigital(Action.EXTRA1);
+	var _extra1P = new FlxActionDigital(Action.EXTRA1_P);
+	var _extra1R = new FlxActionDigital(Action.EXTRA1_R);
+	var _extra2 = new FlxActionDigital(Action.EXTRA2);
+	var _extra2P = new FlxActionDigital(Action.EXTRA2_P);
+	var _extra2R = new FlxActionDigital(Action.EXTRA2_R);
+	var _extra3 = new FlxActionDigital(Action.EXTRA3);
+	var _extra3P = new FlxActionDigital(Action.EXTRA3_P);
+	var _extra3R = new FlxActionDigital(Action.EXTRA3_R);
+	var _extra4 = new FlxActionDigital(Action.EXTRA4);
+	var _extra4P = new FlxActionDigital(Action.EXTRA4_P);
+	var _extra4R = new FlxActionDigital(Action.EXTRA4_R);
+    #end
 
 	#if (haxe >= "4.0.0")
 	var byName:Map<String, FlxActionDigital> = [];
@@ -302,6 +346,69 @@ class Controls extends FlxActionSet
 
 	inline function get_CHAR_SELECT()
         return _char_select.check();
+       
+    //Extra Mobile Controls 
+    #if TOUCH_CONTROLS_ALLOWED
+	public var EXTRA1(get, never):Bool;
+
+	inline function get_EXTRA1()
+		return _extra1.check();		
+	
+	public var EXTRA1_R(get, never):Bool;
+
+	inline function get_EXTRA1_R()
+		return _extra1R.check();		
+		
+	public var EXTRA1_P(get, never):Bool;
+
+	inline function get_EXTRA1_P()
+		return _extra1P.check();
+	
+	public var EXTRA2(get, never):Bool;
+
+	inline function get_EXTRA2()
+		return _extra2.check();		
+	
+	public var EXTRA2_R(get, never):Bool;
+
+	inline function get_EXTRA2_R()
+		return _extra2R.check();		
+		
+	public var EXTRA2_P(get, never):Bool;
+
+	inline function get_EXTRA2_P()
+		return _extra2P.check();			
+
+	public var EXTRA3(get, never):Bool;
+
+	inline function get_EXTRA3()
+		return _extra3.check();		
+	
+	public var EXTRA3_R(get, never):Bool;
+
+	inline function get_EXTRA3_R()
+		return _extra3R.check();		
+		
+	public var EXTRA3_P(get, never):Bool;
+
+	inline function get_EXTRA3_P()
+		return _extra3P.check();
+
+	public var EXTRA4(get, never):Bool;
+
+	inline function get_EXTRA4()
+		return _extra4.check();		
+	
+	public var EXTRA4_R(get, never):Bool;
+
+	inline function get_EXTRA4_R()
+		return _extra4R.check();		
+		
+	public var EXTRA4_P(get, never):Bool;
+
+	inline function get_EXTRA4_P()
+		return _extra4P.check();
+    #end
 
 	public static var instance:Controls;
 
@@ -343,12 +450,203 @@ class Controls extends FlxActionSet
 		add(_bar_left);
 		add(_screenshot);
 		add(_char_select);
+		
+		//Extra Mobile Controls
+        #if TOUCH_CONTROLS_ALLOWED
+		add(_extra1);
+		add(_extra1P);
+		add(_extra1R);
+		add(_extra2);
+		add(_extra2P);
+		add(_extra2R);
+		add(_extra3);
+		add(_extra3P);
+		add(_extra3R);
+		add(_extra4);
+		add(_extra4P);
+		add(_extra4R);
+        #end
 
 		for (action in digitalActions)
 			byName[action.name] = action;
 
 		setKeyboardScheme(scheme, false);
 	}
+	
+	#if TOUCH_CONTROLS_ALLOWED
+	public var trackedInputsUI:Array<FlxActionInput> = [];
+	public var trackedInputsNOTES:Array<FlxActionInput> = [];
+
+	public function addButtonNOTES(action:FlxActionDigital, button:FlxButton, state:FlxInputState):Void
+	{
+		var input:FlxActionInputDigitalIFlxInput = new FlxActionInputDigitalIFlxInput(button, state);
+		trackedInputsNOTES.push(input);
+		action.add(input);
+	}
+
+	public function addButtonUI(action:FlxActionDigital, button:FlxButton, state:FlxInputState):Void
+	{
+		if (button == null)
+			return;
+
+		var input:FlxActionInputDigitalIFlxInput = new FlxActionInputDigitalIFlxInput(button, state);
+		trackedInputsUI.push(input);
+		action.add(input);
+	}
+	
+	public function addHitboxNOTES(action:FlxActionDigital, button:FlxButton, state:FlxInputState)
+	{
+		var input = new FlxActionInputDigitalIFlxInput(button, state);
+		trackedInputsNOTES.push(input);
+		action.add(input);
+	}
+
+	public function setHitBox(hitbox:FlxHitbox) 
+	{
+		inline forEachBound(Control.NOTE_UP, (action, state) -> addHitboxNOTES(action, hitbox.buttonUp, state));
+		inline forEachBound(Control.NOTE_DOWN, (action, state) -> addHitboxNOTES(action, hitbox.buttonDown, state));
+		inline forEachBound(Control.NOTE_LEFT, (action, state) -> addHitboxNOTES(action, hitbox.buttonLeft, state));
+		inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addHitboxNOTES(action, hitbox.buttonRight, state));	
+	}
+	
+	
+	public function setNewHitBox(Hitbox:FlxNewHitbox)
+	{
+		inline forEachBound(Control.NOTE_UP, (action, state) -> addHitboxNOTES(action, Hitbox.buttonUp, state));
+		inline forEachBound(Control.NOTE_DOWN, (action, state) -> addHitboxNOTES(action, Hitbox.buttonDown, state));
+		inline forEachBound(Control.NOTE_LEFT, (action, state) -> addHitboxNOTES(action, Hitbox.buttonLeft, state));
+		inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addHitboxNOTES(action, Hitbox.buttonRight, state));
+		inline forEachBound(Control.EXTRA1, (action, state) -> addHitboxNOTES(action, Hitbox.buttonExtra1, state));
+		inline forEachBound(Control.EXTRA2, (action, state) -> addHitboxNOTES(action, Hitbox.buttonExtra2, state));
+		inline forEachBound(Control.EXTRA3, (action, state) -> addHitboxNOTES(action, Hitbox.buttonExtra3, state));
+		inline forEachBound(Control.EXTRA4, (action, state) -> addHitboxNOTES(action, Hitbox.buttonExtra4, state));
+	}
+
+	public function setVirtualPadUI(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode):Void
+	{
+		if (VirtualPad == null)
+			return;
+
+		switch (DPad)
+		{
+			case UP_DOWN | OptionsC:
+				inline forEachBound(Control.UI_UP, (action, state) -> addButtonUI(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.UI_DOWN, (action, state) -> addButtonUI(action, VirtualPad.buttonDown, state));
+			case LEFT_RIGHT:
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
+			case UP_LEFT_RIGHT:
+				inline forEachBound(Control.UI_UP, (action, state) -> addButtonUI(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
+			case FULL | RIGHT_FULL | PAUSE | CHART_EDITOR | ALL:
+				inline forEachBound(Control.UI_UP, (action, state) -> addButtonUI(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.UI_DOWN, (action, state) -> addButtonUI(action, VirtualPad.buttonDown, state));
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
+			case DUO:
+				inline forEachBound(Control.UI_UP, (action, state) -> addButtonUI(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.UI_DOWN, (action, state) -> addButtonUI(action, VirtualPad.buttonDown, state));
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
+				inline forEachBound(Control.UI_UP, (action, state) -> addButtonUI(action, VirtualPad.buttonUp2, state));
+				inline forEachBound(Control.UI_DOWN, (action, state) -> addButtonUI(action, VirtualPad.buttonDown2, state));
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft2, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight2, state));
+			case NONE: // do nothing
+		}
+
+		switch (Action)
+		{
+			case A | A_C | A_X_Y | ALL:
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonUI(action, VirtualPad.buttonA, state));
+			case B | B_X_Y | B_E:
+				inline forEachBound(Control.BACK, (action, state) -> addButtonUI(action, VirtualPad.buttonB, state));
+			case P:
+				inline forEachBound(Control.PAUSE, (action, state) -> addButtonUI(action, VirtualPad.buttonP, state));
+			case A_B | A_B_C | A_B_E | A_B_E_C_M | A_B_X_Y | A_B_C_X_Y | A_B_C_X_Y_Z | FULL | CHART_EDITOR:
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonUI(action, VirtualPad.buttonA, state));
+				inline forEachBound(Control.BACK, (action, state) -> addButtonUI(action, VirtualPad.buttonB, state));
+			case OptionsC:
+				inline forEachBound(Control.UI_LEFT, (action, state) -> addButtonUI(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonUI(action, VirtualPad.buttonA, state));
+				inline forEachBound(Control.BACK, (action, state) -> addButtonUI(action, VirtualPad.buttonB, state));
+			case NONE | E | controlExtend | D | X_Y: // do nothing
+		}
+	}
+
+	public function setVirtualPadNOTES(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode):Void
+	{
+		if (VirtualPad == null)
+			return;
+
+		switch (DPad)
+		{
+			case UP_DOWN | OptionsC:
+				inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.NOTE_DOWN, (action, state) -> addButtonNOTES(action, VirtualPad.buttonDown, state));
+			case LEFT_RIGHT:
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight, state));
+			case UP_LEFT_RIGHT:
+				inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight, state));
+			case FULL | RIGHT_FULL | PAUSE | CHART_EDITOR | ALL:
+				inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.NOTE_DOWN, (action, state) -> addButtonNOTES(action, VirtualPad.buttonDown, state));
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight, state));
+			case DUO:
+				inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, VirtualPad.buttonUp, state));
+				inline forEachBound(Control.NOTE_DOWN, (action, state) -> addButtonNOTES(action, VirtualPad.buttonDown, state));
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight, state));
+				inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, VirtualPad.buttonUp2, state));
+				inline forEachBound(Control.NOTE_DOWN, (action, state) -> addButtonNOTES(action, VirtualPad.buttonDown2, state));
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft2, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight2, state));
+			case NONE: // do nothing
+		}
+
+		switch (Action)
+		{
+			case A | A_C | A_X_Y | ALL:
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonA, state));
+			case B | B_X_Y | B_E:
+				inline forEachBound(Control.BACK, (action, state) -> addButtonNOTES(action, VirtualPad.buttonB, state));
+			case P:
+				inline forEachBound(Control.PAUSE, (action, state) -> addButtonNOTES(action, VirtualPad.buttonP, state));
+			case A_B | A_B_C | A_B_E | A_B_E_C_M | A_B_X_Y | A_B_C_X_Y | A_B_C_X_Y_Z | FULL | CHART_EDITOR:
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonA, state));
+				inline forEachBound(Control.BACK, (action, state) -> addButtonNOTES(action, VirtualPad.buttonB, state));
+			case OptionsC:
+				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonA, state));
+				inline forEachBound(Control.BACK, (action, state) -> addButtonNOTES(action, VirtualPad.buttonB, state));
+				inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonLeft, state));
+				inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, VirtualPad.buttonRight, state));
+			case NONE | E | controlExtend | D | X_Y: // do nothing
+		}
+	}
+	
+	public function removeVirtualControlsInput(Tinputs:Array<FlxActionInput>):Void
+	{
+		for (action in this.digitalActions)
+		{
+			var i = action.inputs.length;
+			while (i-- > 0)
+			{
+				var x = Tinputs.length;
+				while (x-- > 0)
+				{
+					if (Tinputs[x] == action.inputs[i])
+						action.remove(action.inputs[i]);
+				}
+			}
+		}
+	}
+    #end
 
 	override function update()
 	{
@@ -404,6 +702,14 @@ class Controls extends FlxActionSet
 			case BAR_RIGHT: _bar_right;
 			case SCREENSHOT: _screenshot;
 			case CHAR_SELECT: _char_select;
+			
+			//Extra Mobile Controls
+			#if TOUCH_CONTROLS_ALLOWED
+			case EXTRA1: _extra1;
+			case EXTRA2: _extra2;
+			case EXTRA3: _extra3;
+			case EXTRA4: _extra4;
+			#end
 		}
 	}
 
@@ -473,6 +779,26 @@ class Controls extends FlxActionSet
 				func(_screenshot, JUST_PRESSED);
 			case CHAR_SELECT: 
 				func(_char_select, JUST_PRESSED);
+				
+			//Extra Mobile Controls
+			#if TOUCH_CONTROLS_ALLOWED
+			case EXTRA1:
+				func(_extra1, PRESSED);
+				func(_extra1P, JUST_PRESSED);
+				func(_extra1R, JUST_RELEASED);
+			case EXTRA2:
+				func(_extra2, PRESSED);
+				func(_extra2P, JUST_PRESSED);
+				func(_extra2R, JUST_RELEASED);
+			case EXTRA3:
+				func(_extra3, PRESSED);
+				func(_extra3P, JUST_PRESSED);
+				func(_extra3R, JUST_RELEASED);
+			case EXTRA4:
+				func(_extra4, PRESSED);
+				func(_extra4P, JUST_PRESSED);
+				func(_extra4R, JUST_RELEASED);
+			#end
 		}
 	}
 

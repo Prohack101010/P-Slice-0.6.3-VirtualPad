@@ -44,6 +44,75 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
 		#if mobile
+		var option:Option = new Option('VirtualPad Alpha:', //mariomaster was here again
+			'Changes VirtualPad Alpha -cool feature',
+			'VirtualPadAlpha',
+			'float',
+			#if mobile 0.75 #else 0 #end);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0;
+		option.maxValue = 1;
+		option.changeValue = 0.01;
+		option.decimals = 2;
+		addOption(option);
+        option.onChange = onChangePadAlpha;
+		super();
+		
+    	var option:Option = new Option('Extra Controls',
+    		"Allow Extra Controls",
+    		'extraKeys',
+    		'float',
+    		2);
+    	option.scrollSpeed = 1.6;
+    	option.minValue = 0;
+    	option.maxValue = 4;
+    	option.changeValue = 1;
+    	option.decimals = 1;
+    	addOption(option);
+    		
+    	var option:Option = new Option('Extra Control Location:',
+    		"Choose Extra Control Location",
+    		'hitboxLocation',
+    		'string',
+    		'Bottom',
+    		['Bottom', 'Top']);
+    	addOption(option);
+    		  
+    	var option:Option = new Option('Hitbox Mode:',
+    		"Choose your Hitbox Style!  -mariomaster",
+    		'hitboxmode',
+    		'string',
+    		'New',
+    		['Classic', 'New']);
+    	addOption(option);
+    		  
+    	var option:Option = new Option('Hitbox Design:',
+    		"Choose how your hitbox should look like.",
+    		'hitboxtype',
+    		'string',
+    		'Gradient',
+    		['Gradient', 'No Gradient' , 'No Gradient (Old)']);
+    	addOption(option);
+    
+    	var option:Option = new Option('Hitbox Hint',
+    		'Hitbox Hint -I hate this',
+    		'hitboxhint',
+    		'bool',
+    		false);
+    	addOption(option);
+    		
+    	var option:Option = new Option('Hitbox Opacity', //mariomaster was here again
+    		'Changes hitbox opacity -omg',
+    		'hitboxalpha',
+    		'float',
+    		0.7);
+    	option.scrollSpeed = 1.6;
+    	option.minValue = 0.0;
+    	option.maxValue = 1;
+    	option.changeValue = 0.1;
+    	option.decimals = 1;
+    	addOption(option);
+		
 		option = new Option('Allow Phone Screensaver',
 			'If checked, the phone will sleep after going inactive for few seconds.\n(The time depends on your phone\'s options)', 'screensaver', 'bool', false);
 		option.onChange = () -> lime.system.System.allowScreenTimeout = curOption.getValue();
@@ -74,7 +143,8 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 		try
 		{
-			Sys.command('rm', ['-rf', lastStoragePath]);
+		    if (lastStorageType != "EXTERNAL")
+			    Sys.command('rm', ['-rf', lastStoragePath]);
 		}
 		catch (e:haxe.Exception)
 			trace('Failed to remove last directory. (${e.message})');

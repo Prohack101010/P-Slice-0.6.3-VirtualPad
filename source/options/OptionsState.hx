@@ -42,7 +42,12 @@ class OptionsState extends MusicBeatState
 			case 'Note Colors':
 				openSubState(new options.NotesSubState());
 			case 'Controls':
-				openSubState(new options.ControlsSubState());
+			    #if TOUCH_CONTROLS_ALLOWED
+			    if (ClientPrefs.VirtualPadAlpha != 0)
+			        openSubState(new MobileControlSelectSubState());
+			    else
+			    #end
+				    openSubState(new options.ControlsSubState());
 			case 'Graphics':
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals':
@@ -86,6 +91,10 @@ class OptionsState extends MusicBeatState
 
 		changeSelection();
 		ClientPrefs.saveSettings();
+		
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(UP_DOWN, A_B_E);
+		#end
 
 		super.create();
 	}
@@ -94,6 +103,10 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 		ClientPrefs.saveSettings();
 		controls.isInSubstate = false;
+		#if TOUCH_CONTROLS_ALLOWED
+		removeVirtualPad();
+		addVirtualPad(UP_DOWN, A_B_E);
+		#end
 		persistentUpdate = true;
 	}
 
@@ -111,6 +124,14 @@ class OptionsState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
+		
+		#if TOUCH_CONTROLS_ALLOWED
+		if (_virtualpad.buttonE.justPressed) {
+			removeVirtualPad();
+			persistentUpdate = false;
+			openSubState(new MobileExtraControl());
+		}
+		#end
 
 		if (controls.ACCEPT) {
 			openSelectedSubstate(options[curSelected]);

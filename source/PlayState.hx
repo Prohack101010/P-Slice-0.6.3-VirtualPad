@@ -832,6 +832,12 @@ class PlayState extends MusicBeatState
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+		
+		#if TOUCH_CONTROLS_ALLOWED
+    	addMobileControls();
+    	MusicBeatState.mobilec.visible = false;
+    	if (ClientPrefs.data.hitboxmode == 'New' && !ClientPrefs.data.hitboxhint) MusicBeatState.mobilec.alpha = 0.000001;
+    	#end
 
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
@@ -1378,7 +1384,11 @@ class PlayState extends MusicBeatState
 		{
 			if (skipCountdown || startOnTime > 0)
 				skipArrowStartTween = true;
-
+				
+			#if TOUCH_CONTROLS_ALLOWED
+    		MusicBeatState.mobilec.visible = true;
+    		if (MusicBeatState.checkHitbox != true) MusicBeatState.mobilec.alpha = ClientPrefs.data.VirtualPadAlpha; //better for pc build
+    		#end
 			generateStaticArrows(0);
 			generateStaticArrows(1);
 			for (i in 0...playerStrums.length)
@@ -3091,6 +3101,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+        #if TOUCH_CONTROLS_ALLOWED
+        MusicBeatState.mobilec.visible = false;
+        #end
 		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
