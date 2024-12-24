@@ -100,7 +100,7 @@ class ModsMenuState extends MusicBeatState
 		var daY = 0;
 		#if mobile
 			daY = 70;
-		else
+		#else
 			daY = 20;
 		#end
 
