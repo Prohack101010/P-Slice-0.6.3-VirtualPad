@@ -836,7 +836,7 @@ class PlayState extends MusicBeatState
 		#if TOUCH_CONTROLS_ALLOWED
     	addMobileControls();
     	MusicBeatState.mobilec.visible = false;
-    	if (ClientPrefs.data.hitboxmode == 'New' && !ClientPrefs.data.hitboxhint) MusicBeatState.mobilec.alpha = 0.000001;
+    	if (ClientPrefs.hitboxmode == 'New' && !ClientPrefs.hitboxhint) MusicBeatState.mobilec.alpha = 0.000001;
     	#end
 
 		// if (SONG.song == 'South')
@@ -1387,7 +1387,7 @@ class PlayState extends MusicBeatState
 				
 			#if TOUCH_CONTROLS_ALLOWED
     		MusicBeatState.mobilec.visible = true;
-    		if (MusicBeatState.checkHitbox != true) MusicBeatState.mobilec.alpha = ClientPrefs.data.VirtualPadAlpha; //better for pc build
+    		if (MusicBeatState.checkHitbox != true) MusicBeatState.mobilec.alpha = ClientPrefs.VirtualPadAlpha; //better for pc build
     		#end
 			generateStaticArrows(0);
 			generateStaticArrows(1);

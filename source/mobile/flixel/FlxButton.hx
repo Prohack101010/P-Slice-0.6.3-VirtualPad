@@ -392,7 +392,7 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 		{
 		    #if desktop
 		    var button = FlxMouseButton.getByID(FlxMouseButtonID.LEFT);
-			if (checkInput(FlxG.mouse, button, button.justPressedPosition, camera) && ClientPrefs.data.VirtualPadAlpha != 0)
+			if (checkInput(FlxG.mouse, button, button.justPressedPosition, camera) && ClientPrefs.VirtualPadAlpha != 0)
 			#else
 			for (touch in FlxG.touches.list)
 				if (checkInput(touch, touch, touch.justPressedPosition, camera))

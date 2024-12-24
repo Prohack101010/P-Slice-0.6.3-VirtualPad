@@ -150,6 +150,14 @@ class MobileOptionsSubState extends BaseOptionsMenu
 			trace('Failed to remove last directory. (${e.message})');
 	}
 	#end
+	
+	#if TOUCH_CONTROLS_ALLOWED
+	function onChangePadAlpha()
+	{
+    	ClientPrefs.saveSettings();
+    	_virtualpad.alpha = ClientPrefs.VirtualPadAlpha;
+	}
+	#end
 
 	override public function destroy()
 	{
