@@ -85,8 +85,8 @@ class DialogueEditorState extends MusicBeatState
 		addEditorBox();
 		FlxG.mouse.visible = true;
 
-		final buttonO:String = controls.mobileC ? 'A' : 'O';
-		final buttonP:String = controls.mobileC ? 'X' : 'P';
+		final buttonO:String = 'O';
+		final buttonP:String = 'P';
 
 		var addLineText:FlxText = new FlxText(10, 10, FlxG.width - 20, 'Press $buttonO to remove the current dialogue line, Press $buttonP to add another line after the current one.', 8);
 		addLineText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -227,8 +227,8 @@ class DialogueEditorState extends MusicBeatState
 		character.playAnim(); //Plays random animation
 		characterAnimSpeed();
 
-		final buttonW:String = controls.mobileC ? 'Up' : 'W';
-		final buttonS:String = controls.mobileC ? 'Down' : 'S';
+		final buttonW:String = 'W';
+		final buttonS:String = 'S';
 
 		if(character.animation.curAnim != null && character.jsonFile.animations != null) {
 			animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
@@ -279,8 +279,8 @@ class DialogueEditorState extends MusicBeatState
 					curAnim = 0;
 					if(character.jsonFile.animations.length > curAnim && character.jsonFile.animations[curAnim] != null) {
 						character.playAnim(character.jsonFile.animations[curAnim].anim, daText.finishedText);
-						final buttonW:String = controls.mobileC ? 'Up' : 'W';
-						final buttonS:String = controls.mobileC ? 'Down' : 'S';
+						final buttonW:String = 'W';
+						final buttonS:String = 'S';
 						animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
 					} else {
 						animText.text = 'ERROR! NO ANIMATIONS FOUND';
@@ -382,8 +382,8 @@ class DialogueEditorState extends MusicBeatState
 						character.playAnim(animToPlay, daText.finishedText);
 						dialogueFile.dialogue[curSelected].expression = animToPlay;
 					}
-					final buttonW:String = controls.mobileC ? 'Up' : 'W';
-					final buttonS:String = controls.mobileC ? 'Down' : 'S';
+					final buttonW:String = 'W';
+					final buttonS:String = 'S';
 					animText.text = 'Animation: ' + animToPlay + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
 				}
 				if(controlText[i]) {
@@ -442,16 +442,16 @@ class DialogueEditorState extends MusicBeatState
 				}
 			}
 			character.playAnim(character.jsonFile.animations[curAnim].anim, daText.finishedText);
-			final buttonW:String = controls.mobileC ? 'Up' : 'W';
-			final buttonS:String = controls.mobileC ? 'Down' : 'S';
+			final buttonW:String = 'W';
+			final buttonS:String = 'S';
 			animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + leLength + ') - Press $buttonW or $buttonS to scroll';
 		} else {
 			animText.text = 'ERROR! NO ANIMATIONS FOUND';
 		}
 		characterAnimSpeed();
 
-		final buttonA:String = controls.mobileC ? 'Left' : 'A';
-		final buttonD:String = controls.mobileC ? 'Right' : 'D';
+		final buttonA:String = 'A';
+		final buttonD:String = 'D';
 
 		selectedText.text = 'Line: (' + (curSelected + 1) + ' / ' + dialogueFile.dialogue.length + ') - Press $buttonA or $buttonD to scroll';
 	}

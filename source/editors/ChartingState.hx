@@ -343,7 +343,7 @@ class ChartingState extends MusicBeatState
 		UI_box.y = 25;
 		UI_box.scrollFactor.set();
 
-		text = (controls.mobileC) ? 
+		text = #if mobile 
 		"Up/Down - Change Conductor's strum time
 		\nLeft/Right - Go to the previous/next section
 		\nG - Reset Song Playback Rate
@@ -354,7 +354,8 @@ class ChartingState extends MusicBeatState
 		\nC - Test your chart inside Chart Editor
 		\nA - Play your chart
 		\nUp/Down (Right Side) - Decrease/Increase Note Sustain Length
-		\nX - Stop/Resume song" :
+		\nX - Stop/Resume song"
+		#else
 		"W/S or Mouse Wheel - Change Conductor's strum time
 		\nA/D - Go to the previous/next section
 		\nLeft/Right - Change Snap
@@ -368,7 +369,8 @@ class ChartingState extends MusicBeatState
 		\nEsc - Test your chart inside Chart Editor
 		\nEnter - Play your chart
 		\nQ/E - Decrease/Increase Note Sustain Length
-		\nSpace - Stop/Resume song";
+		\nSpace - Stop/Resume song"
+		#end;
 
 		var tipTextArray:Array<String> = text.split('\n');
 		for (i in 0...tipTextArray.length) {

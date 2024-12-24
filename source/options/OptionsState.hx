@@ -42,13 +42,7 @@ class OptionsState extends MusicBeatState
 			case 'Note Colors':
 				openSubState(new options.NotesSubState());
 			case 'Controls':
-				if (controls.mobileC)
-				{
-					persistentUpdate = true;
-					FlxG.sound.play(Paths.sound('cancelMenu'));
-				}
-				else
-					openSubState(new options.ControlsSubState());
+				openSubState(new options.ControlsSubState());
 			case 'Graphics':
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals':

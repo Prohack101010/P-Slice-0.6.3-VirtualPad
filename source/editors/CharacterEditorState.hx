@@ -142,12 +142,12 @@ class CharacterEditorState extends MusicBeatState
 		camFollow.screenCenter();
 		add(camFollow);
 
-		final buttonEQ:String = controls.mobileC ? 'X/Y' : 'E/Q';
-		final buttonR:String = controls.mobileC ? 'Z' : 'R';
-		final buttonWS:String = controls.mobileC ? 'V/D' : 'W/S';
-		final buttonT:String = controls.mobileC ? 'A' : 'T';
-		final buttonShift:String = controls.mobileC ? 'Shift' : 'C';
-		final buttonJKLI:String = controls.mobileC ? 'Hold G and Arrow Keys' : 'JKLI';
+		final buttonEQ:String = 'E/Q';
+		final buttonR:String = 'R';
+		final buttonWS:String =  'W/S';
+		final buttonT:String = 'T';
+		final buttonShift:String = 'C';
+		final buttonJKLI:String = 'JKLI';
 
 		var tipTextArray:Array<String> = '$buttonEQ - Camera Zoom In/Out
 		\n$buttonR - Reset Camera Zoom

@@ -110,31 +110,33 @@ class DialogueCharacterEditorState extends MusicBeatState
 		box.updateHitbox();
 		hudGroup.add(box);
 
-		TIP_TEXT_MAIN = (controls.mobileC) ?
+		TIP_TEXT_MAIN = #if mobile
 			'\nX - Reset Camera
 			\nY - Toggle Speech Bubble
 			\nA - Reset text'
-			:
+			#else
 			'JKLI - Move camera (Hold Shift to move 4x faster)
 			\nQ/E - Zoom out/in
 			\nR - Reset Camera
 			\nH - Toggle Speech Bubble
-			\nSpace - Reset text';
+			\nSpace - Reset text'
+			#end;
 
-		TIP_TEXT_OFFSET = (controls.mobileC) ?
+		TIP_TEXT_OFFSET = #if mobile
 			'\nX - Reset Camera
 			\nY - Toggle Ghosts
 			\nTop Arrow Keys - Move Looping animation offset (Red)
 			\nBottom Arrow Keys - Move Idle/Finished animation offset (Blue)
 			\nHold Z to move offsets 10x faster'
-			:
+			#else
 			'JKLI - Move camera (Hold Shift to move 4x faster)
 			\nQ/E - Zoom out/in
 			\nR - Reset Camera
 			\nH - Toggle Ghosts
 			\nWASD - Move Looping animation offset (Red)
 			\nArrow Keys - Move Idle/Finished animation offset (Blue)
-			\nHold Shift to move offsets 10x faster';
+			\nHold Shift to move offsets 10x faster'
+			#end;
 
 		tipText = new FlxText(10, 10, FlxG.width - 20, TIP_TEXT_MAIN, 8);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -466,8 +468,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 			offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
 		}
 
-		final buttonW:String = controls.mobileC ? 'Up' : 'W';
-		final buttonS:String = controls.mobileC ? 'Down' : 'S';
+		final buttonW:String = 'W';
+		final buttonS:String = 'S';
 
 		curAnim = 0;
 		animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
@@ -658,8 +660,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 					if(curAnim < 0) curAnim = character.jsonFile.animations.length - 1;
 					else if(curAnim >= character.jsonFile.animations.length) curAnim = 0;
 
-					final buttonW:String = controls.mobileC ? 'Up' : 'W';
-					final buttonS:String = controls.mobileC ? 'Down' : 'S';
+					final buttonW:String = 'W';
+					final buttonS:String = 'S';
 					
 					character.playAnim(character.jsonFile.animations[curAnim].anim);
 					animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
@@ -687,8 +689,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 							}
 						}
 					}
-					final buttonW:String = controls.mobileC ? 'Up' : 'W';
-					final buttonS:String = controls.mobileC ? 'Down' : 'S';
+					final buttonW:String = 'W';
+					final buttonS:String = 'S';
 					animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press $buttonW or $buttonS to scroll';
 				}
 			}

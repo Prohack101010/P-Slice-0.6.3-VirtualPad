@@ -25,21 +25,21 @@ class OutdatedState extends MusicBeatState
 
 		var guh:String;
 
-		if (controls.mobileC) {
+		#if mobile
 			guh = "Sup kiddo, looks like you're running an   \n
 			outdated version of P-Slice Engine (" + MainMenuState.pSliceVersion + "),\n
 			please update to " + TitleState.updateVersion + "!\n
 			Press B to proceed anyway.\n
 			\n
 			Thank you for using the Engine!";
-		} else {
+		#else
 			guh = "Sup bro, looks like you're running an   \n
 			outdated version of P-Slice Engine (" + MainMenuState.pSliceVersion + "),\n
 			please update to " + TitleState.updateVersion + "!\n
 			Press ESCAPE to proceed anyway.\n
 			\n
 			Thank you for using the Engine!";
-		}
+		#end
 
 		warnText = new FlxText(0, 0, FlxG.width, guh, 32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);

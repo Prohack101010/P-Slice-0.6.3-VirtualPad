@@ -152,7 +152,7 @@ class EditorPlayState extends MusicBeatState
 		stepTxt.borderSize = 1.25;
 		add(stepTxt);
 
-		final button:String = controls.mobileC ? #if !android 'P' #else 'BACK' #end : 'ESC';
+		final button:String = 'ESC';
 
 		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press $button to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);

@@ -23,8 +23,8 @@ class FlashingState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
-		final buttonBack:String = controls.mobileC ? 'B' : 'ESCAPE';
-		final buttonAccept:String = controls.mobileC ? 'A' : 'ENTER';
+		final buttonBack:String = 'ESCAPE';
+		final buttonAccept:String = 'ENTER';
 
 		warnText = new FlxText(0, 0, FlxG.width,
 			'Hey, watch out!\n
