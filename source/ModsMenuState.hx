@@ -312,6 +312,8 @@ class ModsMenuState extends MusicBeatState
 		#if mobile
 			_virtualpad.alpha = 0.3;
 		#end
+		
+		#end
 		super.create();
 	}
 
