@@ -130,7 +130,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 		#if android
 		option = new Option('Keep My Files',
-			'If checked, Storage Type Won't Delete Your Files', 'lifesaver', 'bool', false);
+			'If checked, Storage Type Wont Delete Your Files', 'lifesaver', 'bool', false);
 		addOption(option);
 		
 		option = new Option('Storage Type', 'Which folder Psych Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)', 'storageType', 'string',
