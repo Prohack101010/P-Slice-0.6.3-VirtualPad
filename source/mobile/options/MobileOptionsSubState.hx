@@ -54,8 +54,11 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		option.maxValue = 1;
 		option.changeValue = 0.1;
 		option.decimals = 1;
+		option.onChange = () ->
+		{
+			_virtualpad.alpha = curOption.getValue();
+		};
 		addOption(option);
-		option.onChange = onChangePadAlpha;
 		super();
 		
     	var option:Option = new Option('Extra Controls',
@@ -154,20 +157,12 @@ class MobileOptionsSubState extends BaseOptionsMenu
 			trace('Failed to remove last directory. (${e.message})');
 	}
 	#end
-	
-	#if TOUCH_CONTROLS_ALLOWED
-	function onChangePadAlpha()
-	{
-    	ClientPrefs.saveSettings();
-    	_virtualpad.alpha = ClientPrefs.VirtualPadAlpha;
-	}
-	#end
 
 	override public function destroy()
 	{
 		super.destroy();
 		#if android
-		if (ClientPrefs.storageType != lastStorageType) {
+		if (ClientPrefs.storageType != lastStorageType)
 		{
 			onStorageChange();
 			ClientPrefs.saveSettings();
