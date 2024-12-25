@@ -343,7 +343,7 @@ class ChartingState extends MusicBeatState
 		UI_box.y = 25;
 		UI_box.scrollFactor.set();
 
-		text = #if mobile 
+		text = #if TOUCH_CONTROLS_ALLOWED
 		"Up/Down - Change Conductor's strum time
 		\nLeft/Right - Go to the previous/next section
 		\nG - Reset Song Playback Rate
@@ -411,6 +411,9 @@ class ChartingState extends MusicBeatState
 		add(zoomTxt);
 
 		updateGrid();
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(FULL, ALL);
+		#end
 		super.create();
 	}
 
@@ -1669,6 +1672,72 @@ var ratingInput:FlxUINumericStepper;
 		FlxG.watch.addQuick('daBeat', curBeat);
 		FlxG.watch.addQuick('daStep', curStep);
 
+
+		#if TOUCH_CONTROLS_ALLOWED
+		#if mobile
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.x > gridBG.x
+				&& touch.x < gridBG.x + gridBG.width
+				&& touch.y > gridBG.y
+				&& FlxG.mouse.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom])
+			{
+				dummyArrow.visible = true;
+				dummyArrow.x = Math.floor(touch.x / GRID_SIZE) * GRID_SIZE;
+				if (_virtualpad.buttonY.pressed || FlxG.keys.pressed.SHIFT)
+					dummyArrow.y = touch.y;
+				else
+				{
+					var gridmult = GRID_SIZE / (quantization / 16);
+					dummyArrow.y = Math.floor(touch.y / gridmult) * gridmult;
+				}
+			} else {
+				dummyArrow.visible = false;
+			}
+
+			if (touch.justPressed)
+			{
+				if (touch.overlaps(curRenderedNotes))
+				{
+					curRenderedNotes.forEachAlive(function(note:Note)
+					{
+						if (touch.overlaps(note))
+							{
+								if (_virtualpad.buttonF.pressed)
+								{
+									selectNote(note);
+								}
+								else if (FlxG.keys.pressed.ALT)
+								{
+									selectNote(note);
+									curSelectedNote[3] = noteTypeIntMap.get(currentType);
+									updateGrid();
+								}
+								else
+								{
+									//trace('tryin to delete note...');
+									deleteNote(note);
+								}
+							}
+					});
+				}
+				else if (!_virtualpad.buttonF.pressed)
+				{
+					if (touch.x > gridBG.x
+						&& touch.x < gridBG.x + gridBG.width
+						&& touch.y > gridBG.y
+						&& touch.y < gridBG.y + (GRID_SIZE * getSectionBeats() * 4) * zoomList[curZoom])
+					{
+						FlxG.log.add('added note');
+						addNote();
+					}
+				}
+			}
+		}
+		#end
+		#end
+
+        #if !mobile
 		if (FlxG.mouse.x > gridBG.x
 			&& FlxG.mouse.x < gridBG.x + gridBG.width
 			&& FlxG.mouse.y > gridBG.y
@@ -1725,6 +1794,7 @@ var ratingInput:FlxUINumericStepper;
 				}
 			}
 		}
+		#end
 
 		var blockInput:Bool = false;
 		for (inputText in blockPressWhileTypingOn) {
@@ -1766,12 +1836,12 @@ var ratingInput:FlxUINumericStepper;
 
 		if (!blockInput)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.justPressed || #end FlxG.keys.justPressed.ESCAPE)
 			{
 				autosaveSong();
 				LoadingState.loadAndSwitchState(new editors.EditorPlayState(sectionStartTime()));
 			}
-			if (FlxG.keys.justPressed.ENTER)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonA.justPressed || #end FlxG.keys.justPressed.ENTER)
 			{
 				autosaveSong();
 				FlxG.mouse.visible = false;
@@ -1785,18 +1855,18 @@ var ratingInput:FlxUINumericStepper;
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonDown2.justPressed || #end FlxG.keys.justPressed.E)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonUp2.justPressed || #end FlxG.keys.justPressed.Q)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
 			}
 
 
-			if (FlxG.keys.justPressed.BACKSPACE) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end FlxG.keys.justPressed.BACKSPACE) {
 				PlayState.chartingMode = false;
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -1804,17 +1874,17 @@ var ratingInput:FlxUINumericStepper;
 				return;
 			}
 
-			if((FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL)) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonZ.justPressed || #end (FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL)) {
 				undo();
 			}
 
 
 
-			if(FlxG.keys.justPressed.Z && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonV.justPressed || #end FlxG.keys.justPressed.Z && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.justPressed.X && curZoom < zoomList.length-1) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonD.justPressed || #end FlxG.keys.justPressed.X && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
 			}
@@ -1835,7 +1905,7 @@ var ratingInput:FlxUINumericStepper;
 				}
 			}
 
-			if (FlxG.keys.justPressed.SPACE)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonX.justPressed || #end FlxG.keys.justPressed.SPACE)
 			{
 				if (FlxG.sound.music.playing)
 				{
@@ -1892,17 +1962,17 @@ var ratingInput:FlxUINumericStepper;
 
 
 
-			if ((FlxG.keys.pressed.W || FlxG.keys.pressed.S))
+			if ((FlxG.keys.pressed.W || FlxG.keys.pressed.S) #if TOUCH_CONTROLS_ALLOWED || (_virtualpad.buttonUp.pressed || _virtualpad.buttonDown.pressed) #end)
 			{
 				FlxG.sound.music.pause();
 
 				var holdingShift:Float = 1;
 				if (FlxG.keys.pressed.CONTROL) holdingShift = 0.25;
-				else if (FlxG.keys.pressed.SHIFT) holdingShift = 4;
+				else if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.pressed || #end FlxG.keys.pressed.SHIFT) holdingShift = 4;
 
 				var daTime:Float = 700 * FlxG.elapsed * holdingShift;
 
-				if (FlxG.keys.pressed.W)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonUp.pressed || #end FlxG.keys.pressed.W)
 				{
 					FlxG.sound.music.time -= daTime;
 				}
@@ -1937,7 +2007,7 @@ var ratingInput:FlxUINumericStepper;
 
 			var style = currentType;
 
-			if (FlxG.keys.pressed.SHIFT){
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.pressed || #end FlxG.keys.pressed.SHIFT){
 				style = 3;
 			}
 
@@ -2032,12 +2102,12 @@ var ratingInput:FlxUINumericStepper;
 				}
 			}
 			var shiftThing:Int = 1;
-			if (FlxG.keys.pressed.SHIFT)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.pressed || #end FlxG.keys.pressed.SHIFT)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.D)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonRight.justPressed || #end FlxG.keys.justPressed.D)
 				changeSection(curSec + shiftThing);
-			if (FlxG.keys.justPressed.A) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonLeft.justPressed || #end FlxG.keys.justPressed.A) {
 				if(curSec <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
@@ -2084,7 +2154,7 @@ var ratingInput:FlxUINumericStepper;
 			playbackSpeed -= 0.01;
 		if (!holdingShift && pressedRB || holdingShift && holdingRB)
 			playbackSpeed += 0.01;
-		if ((FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB)))
+		if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonG.justPressed || #end (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB)))
 			playbackSpeed = 1;
 		//
 

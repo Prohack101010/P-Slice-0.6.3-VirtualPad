@@ -74,6 +74,9 @@ class ControlsSubState extends MusicBeatSubstate {
 	private var grpInputsAlt:Array<AttachedText> = [];
 	var rebindingKey:Bool = false;
 	var nextAccept:Int = 5;
+	#if TOUCH_CONTROLS_ALLOWED
+	var SSB = MobileControlSelectSubState;
+	#end
 
 	public function new() {
 		super();
@@ -135,6 +138,26 @@ class ControlsSubState extends MusicBeatSubstate {
 
 			if (controls.BACK) {
 				ClientPrefs.reloadControls();
+				#if TOUCH_CONTROLS_ALLOWED
+				if (MobileControlSelectSubState.inControlsSubstate)
+				{
+				    SSB.leftArrow.visible = SSB.rightArrow.visible = SSB.grpControls.visible = SSB.exit.visible = SSB.reset.visible = SSB.keyboard.visible = SSB.tipText.visible = true;
+				    
+				    if (SSB.daChoice == "Pad-Custom")
+                    {
+                        SSB.upPozition.visible = true;
+                        SSB.downPozition.visible = true;
+                        SSB.leftPozition.visible = true;
+                        SSB.rightPozition.visible = true;
+                        SSB.extra4Pozition.visible = true;
+                        SSB.extra3Pozition.visible = true;
+                        SSB.extra2Pozition.visible = true;
+                        SSB.extra1Pozition.visible = true;
+                    }
+                    SSB.titleText.text = 'Mobile Controls';
+				    MobileControlSelectSubState.inControlsSubstate = false; // Not Needed But IDK
+				}
+				#end
 				close();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 			}

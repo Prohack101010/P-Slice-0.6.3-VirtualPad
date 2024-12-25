@@ -296,7 +296,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(controls.RESET)
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.justPressed || #end controls.RESET)
 			{
 				for (i in 0...ClientPrefs.comboOffset.length)
 				{
@@ -334,7 +334,7 @@ class NoteOffsetState extends MusicBeatState
 				updateNoteDelay();
 			}
 
-			if(controls.RESET)
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.justPressed || #end controls.RESET)
 			{
 				holdTime = 0;
 				barPercent = 0;
@@ -456,7 +456,7 @@ class NoteOffsetState extends MusicBeatState
 		timeTxt.text = 'Current offset: ' + Math.floor(barPercent) + ' ms';
 	}
 
-	final buttonAccept:String = 'Accept';
+	final buttonAccept:String = #if TOUCH_CONTROLS_ALLOWED 'A' #else 'Accept' #end;
 
 	function updateMode()
 	{
@@ -468,6 +468,12 @@ class NoteOffsetState extends MusicBeatState
 		timeBar.visible = !onComboMenu;
 		timeTxt.visible = !onComboMenu;
 		beatText.visible = !onComboMenu;
+
+		#if TOUCH_CONTROLS_ALLOWED
+		removeVirtualPad();
+		addVirtualPad(onComboMenu ? NONE : LEFT_RIGHT, A_B_C);
+		addVirtualPadCamera();
+		#end
 
 		if(onComboMenu)
 			changeModeText.text = '< Combo Offset (Press $buttonAccept to Switch) >';
