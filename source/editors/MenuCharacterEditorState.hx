@@ -70,8 +70,8 @@ class MenuCharacterEditorState extends MusicBeatState
 		txtOffsets.alpha = 0.7;
 		add(txtOffsets);
 
-		final buttonSpace:String = 'Space';
-		final buttonShift:String = 'shift';
+		final buttonSpace:String = #if TOUCH_CONTROLS_ALLOWED 'A' #else 'Space' #end;
+		final buttonShift:String = #if TOUCH_CONTROLS_ALLOWED 'C' #else 'shift' #end;
 
 		var tipText:FlxText = new FlxText(0, 540, FlxG.width,
 			'Arrow Keys - Change Offset (Hold $buttonShift for 10x speed)
@@ -83,6 +83,10 @@ class MenuCharacterEditorState extends MusicBeatState
 		addEditorBox();
 		FlxG.mouse.visible = true;
 		updateCharTypeBox();
+
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(MENU_CHARACTER, MENU_CHARACTER);
+		#end
 
 		super.create();
 	}
@@ -288,32 +292,32 @@ class MenuCharacterEditorState extends MusicBeatState
 			FlxG.sound.muteKeys = TitleState.muteKeys;
 			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
-			if(FlxG.keys.justPressed.ESCAPE) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end FlxG.keys.justPressed.ESCAPE) {
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			}
 
 			var shiftMult:Int = 1;
-			if(FlxG.keys.pressed.SHIFT) shiftMult = 10;
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.pressed || #end FlxG.keys.pressed.SHIFT) shiftMult = 10;
 
-			if(FlxG.keys.justPressed.LEFT) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonLeft.justPressed || #end FlxG.keys.justPressed.LEFT) {
 				characterFile.position[0] += shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.RIGHT) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonRight.justPressed || #end FlxG.keys.justPressed.RIGHT) {
 				characterFile.position[0] -= shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.UP) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonUp.justPressed || #end FlxG.keys.justPressed.UP) {
 				characterFile.position[1] += shiftMult;
 				updateOffset();
 			}
-			if(FlxG.keys.justPressed.DOWN) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonDown.justPressed || #end FlxG.keys.justPressed.DOWN) {
 				characterFile.position[1] -= shiftMult;
 				updateOffset();
 			}
 
-			if(FlxG.keys.justPressed.SPACE && curTypeSelected == 1) {
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonA.justPressed || #end FlxG.keys.justPressed.SPACE && curTypeSelected == 1) {
 				grpWeekCharacters.members[curTypeSelected].animation.play('confirm', true);
 			}
 		}

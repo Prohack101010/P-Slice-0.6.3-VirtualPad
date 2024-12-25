@@ -28,6 +28,8 @@ enum FlxDPadMode {
 	RIGHT_FULL;
 	DUO;
 	PAUSE;
+	DIALOGUE_PORTRAIT;
+	MENU_CHARACTER;
 	NONE;
 }
 
@@ -52,6 +54,9 @@ enum FlxActionMode {
 	FULL;
 	OptionsC;
 	ALL;
+	MENU_CHARACTER;
+	DIALOGUE_PORTRAIT;
+	CHARACTER_EDITOR;
 	CHARTEDITOR;
 	controlExtend;
 	B_E;

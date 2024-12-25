@@ -142,12 +142,12 @@ class CharacterEditorState extends MusicBeatState
 		camFollow.screenCenter();
 		add(camFollow);
 
-		final buttonEQ:String = 'E/Q';
-		final buttonR:String = 'R';
-		final buttonWS:String =  'W/S';
-		final buttonT:String = 'T';
-		final buttonShift:String = 'C';
-		final buttonJKLI:String = 'JKLI';
+		final buttonEQ:String = #if TOUCH_CONTROLS_ALLOWED 'X/Y' #else 'E/Q' #end;
+		final buttonR:String = #if TOUCH_CONTROLS_ALLOWED 'Z' #else 'R' #end;
+		final buttonWS:String = #if TOUCH_CONTROLS_ALLOWED 'V/D' #else 'W/S' #end;
+		final buttonT:String = #if TOUCH_CONTROLS_ALLOWED 'A' #else 'T' #end;
+		final buttonShift:String = #if TOUCH_CONTROLS_ALLOWED 'Shift' #else 'C' #end;
+		final buttonJKLI:String = #if TOUCH_CONTROLS_ALLOWED 'Hold G and Arrow Keys' #else 'JKLI' #end;
 
 		var tipTextArray:Array<String> = '$buttonEQ - Camera Zoom In/Out
 		\n$buttonR - Reset Camera Zoom
@@ -207,6 +207,11 @@ class CharacterEditorState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 		reloadCharacterOptions();
+
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(FULL, CHARACTER_EDITOR);
+		addVirtualPadCamera();
+		#end
 		super.create();
 	}
 
@@ -1120,7 +1125,7 @@ class CharacterEditorState extends MusicBeatState
 		FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
 
 		if(!charDropDown.dropPanel.visible) {
-			if (FlxG.keys.justPressed.ESCAPE) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end FlxG.keys.justPressed.ESCAPE) {
 				if(goToPlayState) {
 					MusicBeatState.switchState(new PlayState());
 				} else {
@@ -1131,43 +1136,43 @@ class CharacterEditorState extends MusicBeatState
 				return;
 			}
 
-			if (FlxG.keys.justPressed.R) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonZ.justPressed || #end FlxG.keys.justPressed.R) {
 				FlxG.camera.zoom = 1;
 			}
 
-			if (FlxG.keys.pressed.E && FlxG.camera.zoom < 3) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonX.pressed || #end FlxG.keys.pressed.E && FlxG.camera.zoom < 3) {
 				FlxG.camera.zoom += elapsed * FlxG.camera.zoom;
 				if(FlxG.camera.zoom > 3) FlxG.camera.zoom = 3;
 			}
-			if (FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1) {
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.pressed || #end FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1) {
 				FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
 				if(FlxG.camera.zoom < 0.1) FlxG.camera.zoom = 0.1;
 			}
 
-			if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
+			if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonG.pressed && _virtualpad.buttonLeft.pressed) || (_virtualpad.buttonG.pressed && _virtualpad.buttonDown.pressed) || (_virtualpad.buttonG.pressed && _virtualpad.buttonRight.pressed) || (_virtualpad.buttonG.pressed && _virtualpad.buttonUp.pressed) || #end FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 			{
 				var addToCam:Float = 500 * elapsed;
 				if (FlxG.keys.pressed.SHIFT)
 					addToCam *= 4;
 
-				if (FlxG.keys.pressed.I)
+				if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonG.pressed && _virtualpad.buttonUp.pressed) || #end  FlxG.keys.pressed.I)
 					camFollow.y -= addToCam;
-				else if (FlxG.keys.pressed.K)
+				else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonG.pressed && _virtualpad.buttonDown.pressed) || #end FlxG.keys.pressed.K)
 					camFollow.y += addToCam;
 
-				if (FlxG.keys.pressed.J)
+				if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonG.pressed && _virtualpad.buttonLeft.pressed) || #end FlxG.keys.pressed.J)
 					camFollow.x -= addToCam;
-				else if (FlxG.keys.pressed.L)
+				else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonG.pressed && _virtualpad.buttonRight.pressed) || #end FlxG.keys.pressed.L)
 					camFollow.x += addToCam;
 			}
 
 			if(char.animationsArray.length > 0) {
-				if (FlxG.keys.justPressed.W)
+				if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonV.justPressed && !_virtualpad.buttonG.pressed) || #end FlxG.keys.justPressed.W)
 				{
 					curAnim -= 1;
 				}
 
-				if (FlxG.keys.justPressed.S)
+				if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonD.justPressed && !_virtualpad.buttonG.pressed) || #end FlxG.keys.justPressed.S)
 				{
 					curAnim += 1;
 				}
@@ -1178,12 +1183,12 @@ class CharacterEditorState extends MusicBeatState
 				if (curAnim >= char.animationsArray.length)
 					curAnim = 0;
 
-				if ((false || FlxG.keys.justPressed.S) || (false || FlxG.keys.justPressed.W) || FlxG.keys.justPressed.SPACE)
+				if ((#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonD.justPressed #else false #end || FlxG.keys.justPressed.S) || (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonV.justPressed #else false #end || FlxG.keys.justPressed.W) || FlxG.keys.justPressed.SPACE)
 				{
 					char.playAnim(char.animationsArray[curAnim].anim, true);
 					genBoyOffsets();
 				}
-				if (FlxG.keys.justPressed.T)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonA.justPressed || #end FlxG.keys.justPressed.T)
 				{
 					char.animationsArray[curAnim].offsets = [0, 0];
 
@@ -1192,13 +1197,13 @@ class CharacterEditorState extends MusicBeatState
 					genBoyOffsets();
 				}
 
-				var controlArray:Array<Bool> = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.DOWN];
+				var controlArray:Array<Bool> = [#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonLeft.justPressed && !_virtualpad.buttonG.pressed ) || #end FlxG.keys.justPressed.LEFT, #if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonRight.justPressed && !_virtualpad.buttonG.pressed) || #end FlxG.keys.justPressed.RIGHT, #if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonUp.justPressed && !_virtualpad.buttonG.pressed) || #end FlxG.keys.justPressed.UP, #if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonDown.justPressed && !_virtualpad.buttonG.pressed) || #end FlxG.keys.justPressed.DOWN];
 
 
 
 				for (i in 0...controlArray.length) {
 					if(controlArray[i]) {
-						var holdShift = FlxG.keys.pressed.SHIFT;
+						var holdShift = #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.pressed || #end FlxG.keys.pressed.SHIFT;
 						var multiplier = 1;
 						if (holdShift)
 							multiplier = 10;

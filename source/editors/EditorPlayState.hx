@@ -111,6 +111,16 @@ class EditorPlayState extends MusicBeatState
 		else
 			vocals = new FlxSound();
 
+		#if TOUCH_CONTROLS_ALLOWED
+		#if !android
+		addVirtualPad(NONE, P);
+		addVirtualPadCamera();
+		#end
+		addMobileControls();
+    	MusicBeatState.mobilec.visible = #if !android _virtualpad.visible = #end true;
+    	if (ClientPrefs.hitboxmode == 'New' && !ClientPrefs.hitboxhint) MusicBeatState.mobilec.alpha = 0.000001;
+		#end
+
 		generateSong(PlayState.SONG.song);
 		#if (LUA_ALLOWED && MODS_ALLOWED)
 		for (notetype in noteTypeMap.keys()) {
@@ -152,7 +162,7 @@ class EditorPlayState extends MusicBeatState
 		stepTxt.borderSize = 1.25;
 		add(stepTxt);
 
-		final button:String = 'ESC';
+		final button:String = #if TOUCH_CONTROLS_ALLOWED #if !android 'P' #else 'BACK' #end #else 'ESC' #end;
 
 		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press $button to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -326,8 +336,9 @@ class EditorPlayState extends MusicBeatState
 	public var noteKillOffset:Float = 350;
 	public var spawnTime:Float = 2000;
 	override function update(elapsed:Float) {
-		if (#if android FlxG.android.justReleased.BACK || #end FlxG.keys.justPressed.ESCAPE)
+		if (#if android FlxG.android.justReleased.BACK || #elseif TOUCH_CONTROLS_ALLOWED _virtualpad.buttonP.justPressed || #end FlxG.keys.justPressed.ESCAPE)
 		{
+			#if TOUCH_CONTROLS_ALLOWED MusicBeatState.mobilec.visible = #if !android _virtualpad.visible = #end false; #end
 			FlxG.sound.music.pause();
 			vocals.pause();
 			LoadingState.loadAndSwitchState(new editors.ChartingState());

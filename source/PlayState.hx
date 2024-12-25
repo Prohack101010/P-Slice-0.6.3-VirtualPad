@@ -834,6 +834,11 @@ class PlayState extends MusicBeatState
 		doof.cameras = [camHUD];
 		
 		#if TOUCH_CONTROLS_ALLOWED
+		#if !android
+		addVirtualPad(NONE, P);
+		addVirtualPadCamera();
+		_virtualpad.visible = true;
+		#end
     	addMobileControls();
     	MusicBeatState.mobilec.visible = false;
     	if (ClientPrefs.hitboxmode == 'New' && !ClientPrefs.hitboxhint) MusicBeatState.mobilec.alpha = 0.000001;
@@ -2215,7 +2220,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if ((controls.PAUSE #if android || FlxG.android.justReleased.BACK #end) && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if (ret != FunkinLua.Function_Stop)
@@ -3101,9 +3106,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-        #if TOUCH_CONTROLS_ALLOWED
-        MusicBeatState.mobilec.visible = false;
-        #end
+        #if TOUCH_CONTROLS_ALLOWED MusicBeatState.mobilec.visible = #if !android _virtualpad.visible = #end false; #end
 		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
