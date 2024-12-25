@@ -412,7 +412,7 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 		#if TOUCH_CONTROLS_ALLOWED
-		addVirtualPad(FULL, ALL);
+		addVirtualPad(ALL, CHARTEDITOR);
 		#end
 		super.create();
 	}
@@ -1855,11 +1855,11 @@ var ratingInput:FlxUINumericStepper;
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonDown2.justPressed || #end FlxG.keys.justPressed.E)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonCEDown.justPressed || #end FlxG.keys.justPressed.E)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonUp2.justPressed || #end FlxG.keys.justPressed.Q)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonCEUp.justPressed || #end FlxG.keys.justPressed.Q)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}

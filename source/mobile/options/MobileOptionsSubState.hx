@@ -32,7 +32,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 	#if android
 	var storageTypes:Array<String> = ["EXTERNAL_DATA", "EXTERNAL_OBB", "EXTERNAL_MEDIA", "EXTERNAL"];
 	var externalPaths:Array<String> = StorageUtil.checkExternalPaths(true);
-	public static final lastStorageType:String = ClientPrefs.storageType;
+	final lastStorageType:String = ClientPrefs.storageType;
 	#end
 	var option:Option;
 
@@ -44,18 +44,21 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
 		#if mobile
-		var option:Option = new Option('VirtualPad Alpha:', //mariomaster was here again
+		var option:Option = new Option('VirtualPad Alpha:',
 			'Changes VirtualPad Alpha -cool feature',
 			'VirtualPadAlpha',
-			'float',
-			#if mobile 0.75 #else 0 #end);
-		option.scrollSpeed = 1.6;
-		option.minValue = 0;
+			'percent',
+			60);
+		option.scrollSpeed = 1;
+		option.minValue = 0.001;
 		option.maxValue = 1;
-		option.changeValue = 0.01;
-		option.decimals = 2;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		option.onChange = () ->
+		{
+			touchPad.alpha = curOption.getValue();
+		};
 		addOption(option);
-        option.onChange = onChangePadAlpha;
 		super();
 		
     	var option:Option = new Option('Extra Controls',
@@ -126,6 +129,10 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		#end
 
 		#if android
+		option = new Option('Keep My Files',
+			'If checked, Storage Type Won't Delete Your Files', 'lifesaver', 'bool', false);
+		addOption(option);
+		
 		option = new Option('Storage Type', 'Which folder Psych Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)', 'storageType', 'string',
 			'EXTERNAL_DATA', storageTypes);
 		addOption(option);
@@ -143,19 +150,11 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 		try
 		{
-		    if (lastStorageType != 'EXTERNAL')
+		    if (!ClientPrefs.lifesaver || lastStorageType != 'EXTERNAL')
 			    Sys.command('rm', ['-rf', lastStoragePath]);
 		}
 		catch (e:haxe.Exception)
 			trace('Failed to remove last directory. (${e.message})');
-	}
-	#end
-	
-	#if TOUCH_CONTROLS_ALLOWED
-	function onChangePadAlpha()
-	{
-    	ClientPrefs.saveSettings();
-    	_virtualpad.alpha = ClientPrefs.VirtualPadAlpha;
 	}
 	#end
 
@@ -163,10 +162,10 @@ class MobileOptionsSubState extends BaseOptionsMenu
 	{
 		super.destroy();
 		#if android
-		ClientPrefs.saveSettings();
-		if (ClientPrefs.storageType != lastStorageType)
+		if (ClientPrefs.storageType != lastStorageType) {
 		{
 			onStorageChange();
+			ClientPrefs.saveSettings();
 			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
 			lime.system.System.exit(0);
 		}

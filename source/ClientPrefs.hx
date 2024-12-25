@@ -13,7 +13,7 @@ class ClientPrefs {
     public static var hitboxmode:String = 'New';
     public static var hitboxtype:String = 'Gradient';
     public static var hitboxhint:Bool = false;
-    public static var VirtualPadAlpha:Float = 0.75;
+    public static var VirtualPadAlpha:Float = #if mobile 0.6 #else 0 #end;
     public static var hitboxalpha:Float = 0.7;
     
     //  Extra Keys
@@ -28,6 +28,7 @@ class ClientPrefs {
 	public static var screensaver:Bool = false;
 	public static var wideScreen:Bool = false;
 	#if android
+	public static var lifesaver:Bool = false;
 	public static var storageType:String = "EXTERNAL_DATA";
 	#end
 	public static var hitboxType:String = "Gradient";
@@ -154,6 +155,7 @@ class ClientPrefs {
 		FlxG.save.data.screensaver = screensaver;
 		FlxG.save.data.wideScreen = wideScreen;
 		#if android
+		FlxG.save.data.lifesaver = lifesaver;
 		FlxG.save.data.storageType = storageType;
 		#end
 		FlxG.save.data.hitboxType = hitboxType;
@@ -247,6 +249,9 @@ class ClientPrefs {
 			wideScreen = FlxG.save.data.wideScreen;
 		}
 		#if android
+		if(FlxG.save.data.lifesaver != null) {
+			lifesaver = FlxG.save.data.lifesaver;
+		}
 		if(FlxG.save.data.storageType != null) {
 			storageType = FlxG.save.data.storageType;
 		}
