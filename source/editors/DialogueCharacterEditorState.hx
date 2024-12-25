@@ -178,7 +178,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		updateCharTypeBox();
 
 		#if TOUCH_CONTROLS_ALLOWED
-		addVirtualPad(DIALOGUEPORTRAIT, DIALOGUEPORTRAIT);
+		addVirtualPad(DIALOGUE_PORTRAIT, DIALOGUE_PORTRAIT);
 		addVirtualPadCamera();
 		#end
 		super.create();

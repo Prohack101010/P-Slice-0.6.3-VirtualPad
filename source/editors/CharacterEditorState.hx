@@ -209,7 +209,7 @@ class CharacterEditorState extends MusicBeatState
 		reloadCharacterOptions();
 
 		#if TOUCH_CONTROLS_ALLOWED
-		addVirtualPad(FULL, CHARACTEREDITOR);
+		addVirtualPad(FULL, CHARACTER_EDITOR);
 		addVirtualPadCamera();
 		#end
 		super.create();

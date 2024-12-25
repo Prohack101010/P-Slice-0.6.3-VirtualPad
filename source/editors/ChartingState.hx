@@ -412,7 +412,7 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 		#if TOUCH_CONTROLS_ALLOWED
-		addVirtualPad(ALL, CHARTEDITOR);
+		addVirtualPad(ALL, CHART_EDITOR);
 		#end
 		super.create();
 	}
