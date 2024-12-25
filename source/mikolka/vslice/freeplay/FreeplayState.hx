@@ -1511,7 +1511,7 @@ class FreeplayState extends MusicBeatSubstate
 		}
 		#end // ^<-- FEATURE_DEBUG_FUNCTIONS
 
-		if ((FunkinControls.FREEPLAY_CHAR || (TouchUtil.overlapsComplex(djTouchHitbox) && TouchUtil.justReleased && !SwipeUtil.swipeAny)) && !busy) 
+		if ((FunkinControls.FREEPLAY_CHAR || (#if TOUCH_CONTROLS_ALLOWED (!TouchUtil.overlapsComplex(_virtualpad.buttonUp) || !TouchUtil.overlapsComplex(_virtualpad.buttonDown)) && #end TouchUtil.overlapsComplex(djTouchHitbox) && TouchUtil.justReleased && !SwipeUtil.swipeAny)) && !busy) 
 		{
 			tryOpenCharSelect();
 		}
