@@ -135,20 +135,20 @@ class MobileControls extends FlxSpriteGroup {
 	function initControler(vpadMode:Int) {
 		switch (vpadMode){
 			case 0:
-				vpad = new FlxVirtualPad(RIGHT_FULL, controlExtend, ClientPrefs.globalAntialiasing);	
+				vpad = new FlxVirtualPad(RIGHT_FULL, controlExtend);	
 				add(vpad);						
 				vpad = extendConfig.loadcustom(vpad);
 			case 1:
-				vpad = new FlxVirtualPad(FULL, controlExtend, ClientPrefs.globalAntialiasing);
+				vpad = new FlxVirtualPad(FULL, controlExtend);
 				add(vpad);			
 				vpad = extendConfig.loadcustom(vpad);
 			case 2:
-				vpad = new FlxVirtualPad(FULL, controlExtend, ClientPrefs.globalAntialiasing);
+				vpad = new FlxVirtualPad(FULL, controlExtend);
 				vpad = config.loadcustom(vpad);
 				add(vpad);	
 				vpad = extendConfig.loadcustom(vpad);
 			case 3:
-				vpad = new FlxVirtualPad(DUO, controlExtend, ClientPrefs.globalAntialiasing);
+				vpad = new FlxVirtualPad(DUO, controlExtend);
 				add(vpad);		
 				vpad = extendConfig.loadcustom(vpad);
 			case 4:

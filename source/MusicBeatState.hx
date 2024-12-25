@@ -51,7 +51,7 @@ class MusicBeatState extends FlxUIState
 		if (_virtualpad != null)
 			removeVirtualPad();
 
-		_virtualpad = new FlxVirtualPad(DPad, Action, ClientPrefs.globalAntialiasing);
+		_virtualpad = new FlxVirtualPad(DPad, Action);
 		add(_virtualpad);
 
 		controls.setVirtualPadUI(_virtualpad, DPad, Action);

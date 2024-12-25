@@ -56,7 +56,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		option.onChange = () ->
 		{
-			touchPad.alpha = curOption.getValue();
+			_virtualpad.alpha = curOption.getValue();
 		};
 		addOption(option);
 		super();

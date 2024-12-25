@@ -68,10 +68,8 @@ class FlxVirtualPad extends FlxSpriteGroup {
 	 * @param   ActionMode   The action buttons mode. `A_B_C` for example.
 	 */
 
-	public function new(DPad:FlxDPadMode, Action:FlxActionMode, ?antialiasingAlt:Bool = true) {
+	public function new(DPad:FlxDPadMode, Action:FlxActionMode) {
 		super();
-
-		orgAntialiasing = antialiasingAlt;
 
 		dPad = new FlxSpriteGroup();
 		dPad.scrollFactor.set();
@@ -274,8 +272,6 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
 			case NONE:
 		}
-		
-		alpha = ClientPrefs.controlsAlpha;
 	}
 
 	public function createButton(x:Float, y:Float, width:Int, height:Int, Frames:String, ColorS:Int, ?colored:Bool = true):FlxButton {
@@ -287,8 +283,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 	button.scrollFactor.set();
 	button.tag = Frames.toUpperCase();
 	if (colored) button.color = ColorS;
-	button.parentAlpha = button.alpha;
-	button.antialiasing = orgAntialiasing;
+	button.antialiasing = ClientPrefs.globalAntialiasing;
 	#if FLX_DEBUG
 	button.ignoreDrawDebug = true;
 	#end
@@ -297,12 +292,6 @@ class FlxVirtualPad extends FlxSpriteGroup {
 
 	public static function getFrames():FlxAtlasFrames {
 	    return Paths.getPackerAtlas('mobilecontrols/virtualpad/original');
-	}
-	
-	override function set_alpha(Value):Float
-	{
-		forEachAlive((button:FlxButton) -> button.parentAlpha = Value);
-		return super.set_alpha(Value);
 	}
 	
 	override public function destroy():Void
