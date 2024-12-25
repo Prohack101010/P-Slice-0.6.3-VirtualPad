@@ -2156,7 +2156,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 			healthLerp = health;
-		if (video != null && (controls.ACCEPT || controls.PAUSE)) // ! Video handler
+		if (video != null && (controls.ACCEPT || controls.PAUSE #if android || FlxG.android.justReleased.BACK #end)) // ! Video handler
 		{ 
 			persistentUpdate = false;
 			persistentDraw = true;

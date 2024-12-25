@@ -163,10 +163,10 @@ class MobileOptionsSubState extends BaseOptionsMenu
 	{
 		super.destroy();
 		#if android
+		ClientPrefs.saveSettings();
 		if (ClientPrefs.storageType != lastStorageType)
 		{
 			onStorageChange();
-			ClientPrefs.saveSettings();
 			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
 			lime.system.System.exit(0);
 		}

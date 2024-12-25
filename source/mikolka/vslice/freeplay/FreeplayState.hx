@@ -1516,7 +1516,7 @@ class FreeplayState extends MusicBeatSubstate
 			tryOpenCharSelect();
 		}
 
-		if (controls.FAVORITE && !busy) // ? change control binding
+		if ((controls.FAVORITE #if TOUCH_CONTROLS_ALLOWED || _virtualpad.buttonF.justPressed #end) && !busy) // ? change control binding
 		{
 			var targetSong = grpCapsules.members[curSelected]?.songData;
 			if (targetSong != null)

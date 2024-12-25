@@ -54,6 +54,9 @@ class ModsMenuState extends MusicBeatState
 	{
 		var daButton:String = "BACKSPACE";
 
+        #if TOUCH_CONTROLS_ALLOWED
+			daButton = 'B';
+		#end
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		persistentUpdate = false;
@@ -183,7 +186,10 @@ class ModsMenuState extends MusicBeatState
 
 			FlxG.autoPause = false;
 			changeSelectedMod();
-
+			
+			#if TOUCH_CONTROLS_ALLOWED
+			addVirtualPad(NONE, B);
+			#end
 			return super.create();
 		}
 		//
@@ -300,6 +306,12 @@ class ModsMenuState extends MusicBeatState
 		_lastControllerMode = controllerMode;
 
 		changeSelectedMod();
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(UP_DOWN, B);
+		_virtualpad.y -= 215; // so that you can press the buttons.
+		#if mobile
+			_virtualpad.alpha = 0.3;
+		#end
 		super.create();
 	}
 

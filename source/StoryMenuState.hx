@@ -206,11 +206,19 @@ class StoryMenuState extends MusicBeatState
 		changeWeek();
 		changeDifficulty();
 
+		#if TOUCH_CONTROLS_ALLOWED
+		addVirtualPad(FULL, A_B_X_Y);
+		#end
+
 		super.create();
 	}
 
 	override function closeSubState() {
 		persistentUpdate = true;
+		#if TOUCH_CONTROLS_ALLOWED
+		removeVirtualPad();
+		addVirtualPad(FULL, A_B_X_Y);
+		#end
 		changeWeek();
 		super.closeSubState();
 	}
@@ -265,12 +273,14 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
-			if(FlxG.keys.justPressed.CONTROL)
+			if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonX.justPressed || #end FlxG.keys.justPressed.CONTROL)
 			{
+				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
-			else if(controls.RESET)
+			else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.justPressed || #end controls.RESET)
 			{
+				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
 				//FlxG.sound.play(Paths.sound('scrollMenu'));
 			}

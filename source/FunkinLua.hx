@@ -1598,7 +1598,9 @@ class FunkinLua {
 				case 'back': key = PlayState.instance.getControl('BACK');
 				case 'pause': key = PlayState.instance.getControl('PAUSE');
 				case 'reset': key = PlayState.instance.getControl('RESET');	
+				#if !mobile
 				case 'space': key = FlxG.keys.justPressed.SPACE;
+				#end
 				case 'ui_left': key = PlayState.instance.getControl('UI_LEFT_P');
 				case 'ui_down': key = PlayState.instance.getControl('UI_DOWN_P');
 				case 'ui_up': key = PlayState.instance.getControl('UI_UP_P');
@@ -1624,7 +1626,9 @@ class FunkinLua {
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT');
+				#if !mobile
 				case 'space': key = FlxG.keys.pressed.SPACE;
+				#end
 				case 'ui_left': key = PlayState.instance.getControl('UI_LEFT');
 				case 'ui_down': key = PlayState.instance.getControl('UI_DOWN');
 				case 'ui_up': key = PlayState.instance.getControl('UI_UP');
@@ -1650,7 +1654,9 @@ class FunkinLua {
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_R');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP_R');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT_R');		
+				#if !mobile
 				case 'space': key = FlxG.keys.justReleased.SPACE;
+				#end
 				case 'ui_left': key = PlayState.instance.getControl('UI_LEFT_R');
 				case 'ui_down': key = PlayState.instance.getControl('UI_DOWN_R');
 				case 'ui_up': key = PlayState.instance.getControl('UI_UP_R');
