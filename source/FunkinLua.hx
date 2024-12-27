@@ -2942,6 +2942,46 @@ class FunkinLua {
 			return Haptic.vibrate(period, duration);
 		});
 		
+		Lua_helper.add_callback(lua, "addVirtualPad", (DPadMode:String, ActionMode:String) -> {
+          PlayState.instance.addLuaVirtualPad(DPadMode, ActionMode);
+        });
+        
+        Lua_helper.add_callback(lua, "removeVirtualPad", function(){
+            PlayState.instance.removeLuaVirtualPad();
+        });
+        
+        Lua_helper.add_callback(lua, "addVirtualPadCamera", (?DefaultDrawTarget:Bool=false) -> {
+            if(PlayState.instance.luaVirtualPad == null){
+    			FunkinLua.luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
+                return;
+            }
+            PlayState.instance.addVirtualPadCamera(DefaultDrawTarget);
+        });
+        
+        Lua_helper.add_callback(lua, "virtualPadJustPressed", function(button:Dynamic):Bool {
+            if(PlayState.instance.luaVirtualPad == null){
+    			FunkinLua.luaTrace('virtualPadJustPressed: Virtual Pad Does Not Exist!!');
+                return false;
+            }
+            return PlayState.instance.luaVirtualPadJustPressed(button);
+        });
+        
+        Lua_helper.add_callback(lua, "virtualPadPressed", function(button:Dynamic):Bool {
+            if(PlayState.instance.luaVirtualPad == null){
+    			FunkinLua.luaTrace('virtualPadPressed: Virtual Pad Does Not Exist!!');
+                return false;
+            }
+            return PlayState.instance.luaVirtualPadPressed(button);
+        });
+        
+        Lua_helper.add_callback(lua, "virtualPadJustReleased", function(button:Dynamic):Bool {
+            if(PlayState.instance.luaVirtualPad == null){
+    			FunkinLua.luaTrace('virtualPadJustReleased: Virtual Pad Does Not Exist!!');
+                return false;
+            }
+            return PlayState.instance.luaVirtualPadJustReleased(button);
+        });
+		
 		Lua_helper.add_callback(lua, "touchJustPressed", TouchUtil.justPressed);
 		Lua_helper.add_callback(lua, "touchPressed", TouchUtil.pressed);
 		Lua_helper.add_callback(lua, "touchJustReleased", TouchUtil.justReleased);
