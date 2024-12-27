@@ -119,6 +119,14 @@ class FlxButton extends FlxTypedButton<FlxText>
 	{
 		bounds.setPosition(x + ((frameWidth - 100) / 2), y + ((frameHeight - 55) / 2));
 	}
+	
+	public function hasState(state:ButtonsStates):Bool {
+		return switch (state) {
+			case JUST_RELEASED: justReleased;
+			case PRESSED: pressed;
+			case JUST_PRESSED: justPressed;
+		}
+	}
 }
 
 enum ButtonsStates{

@@ -4610,6 +4610,7 @@ class PlayState extends MusicBeatState
 	var curLight:Int = -1;
 	var curLightEvent:Int = -1;
 	
+	#if TOUCH_CONTROLS_ALLOWED
 	public function addLuaVirtualPad(DPadMode:String, ActionMode:String) {
 		// reseting?
 		if(luaVirtualPad.exists)
@@ -4659,4 +4660,5 @@ class PlayState extends MusicBeatState
 		else
 			return false;
 	}
+	#end
 }
