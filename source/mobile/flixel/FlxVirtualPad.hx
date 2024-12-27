@@ -58,6 +58,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 	
 	public var dPad:FlxSpriteGroup;
 	public var actions:FlxSpriteGroup;
+	public var buttonsString:Map<String, FlxButton>;
 
 	public var orgAntialiasing:Bool = true;
 	
@@ -323,7 +324,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 		}
 	}
 
-	public function createButton(x:Float, y:Float, width:Int, height:Int, Frames:String, ColorS:Int, ?colored:Bool = true):FlxButton {
+	public function createButton(x:Float, y:Float, Frames:String, ColorS:Int, ?colored:Bool = true):FlxButton {
 	var button = new FlxButton(x, y);
 	button.frames = FlxTileFrames.fromFrame(getFrames().getByName(Frames), FlxPoint.get(44 * 3, 127));
 	button.resetSizeFromFrame();

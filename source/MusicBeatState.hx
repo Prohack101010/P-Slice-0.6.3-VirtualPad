@@ -134,6 +134,7 @@ class MusicBeatState extends FlxUIState
 
 	override function create() {
 	    // FlxDPadModes (for Mobile Controls)
+	    #if TOUCH_CONTROLS_ALLOWED
 		dpadMode = new Map<String, FlxDPadMode>();
 		dpadMode.set("UP_DOWN", UP_DOWN);
 		dpadMode.set("LEFT_RIGHT", LEFT_RIGHT);
@@ -150,6 +151,7 @@ class MusicBeatState extends FlxUIState
 		actionMode.set('A_B_E', A_B_E);
 		actionMode.set('A_B_C_X_Y', A_B_C_X_Y);
 		actionMode.set('A_B_C_X_Y_Z', A_B_C_X_Y_Z);
+		#end
 		
 		camBeat = FlxG.camera;
 
