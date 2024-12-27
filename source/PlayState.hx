@@ -241,7 +241,9 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
+	#if TOUCH_CONTROLS_ALLOWED
 	public var luaVpadCam:FlxCamera;
+	#end
 	public var cameraSpeed:Float = 1;
 
 	var video:FlxVideoSprite = null;
@@ -324,7 +326,9 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 	
+	#if TOUCH_CONTROLS_ALLOWED
 	public var luaVirtualPad:FlxVirtualPad;
+	#end
 
 	override public function create()
 	{
