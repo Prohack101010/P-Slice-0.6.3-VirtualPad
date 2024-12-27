@@ -165,6 +165,7 @@ class Main extends Sprite
 		lime.system.System.allowScreenTimeout = ClientPrefs.screensaver;
 		FlxG.scaleMode = new MobileScaleMode();
 		#end
+		Data.setup();
 		
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);

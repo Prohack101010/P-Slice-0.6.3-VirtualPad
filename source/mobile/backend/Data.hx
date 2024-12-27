@@ -5,7 +5,7 @@ import haxe.ds.StringMap;
 class Data
 {
 	public static var dpadMode:StringMap<FlxDPadMode> = new StringMap<FlxDPadMode>();
-	public static var actionMode:StringMap<FlxActionMode> = new StringMap<FlxActionMode>();
+    public static var actionMode:StringMap<FlxActionMode> = new StringMap<FlxActionMode>();
 
 	public static function setup()
 	{
