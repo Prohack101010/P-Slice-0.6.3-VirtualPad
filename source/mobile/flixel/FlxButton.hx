@@ -119,20 +119,6 @@ class FlxButton extends FlxTypedButton<FlxText>
 	{
 		bounds.setPosition(x + ((frameWidth - 100) / 2), y + ((frameHeight - 55) / 2));
 	}
-	
-	public function hasState(state:ButtonsStates):Bool {
-		return switch (state) {
-			case JUST_RELEASED: justReleased;
-			case PRESSED: pressed;
-			case JUST_PRESSED: justPressed;
-		}
-	}
-}
-
-enum ButtonsStates{
-	PRESSED;
-	JUST_PRESSED;
-	JUST_RELEASED;
 }
 
 /**
@@ -339,6 +325,14 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 		{
 			_spriteLabel.cameras = cameras;
 			_spriteLabel.draw();
+		}
+	}
+	
+	public function hasState(state:ButtonsStates):Bool {
+		return switch (state) {
+			case JUST_RELEASED: justReleased;
+			case PRESSED: pressed;
+			case JUST_PRESSED: justPressed;
 		}
 	}
 
@@ -627,4 +621,10 @@ private class FlxButtonEvent implements IFlxDestroyable
 			sound.play(true);
 		#end
 	}
+}
+
+enum ButtonsStates{
+	PRESSED;
+	JUST_PRESSED;
+	JUST_RELEASED;
 }
