@@ -121,6 +121,12 @@ class FlxButton extends FlxTypedButton<FlxText>
 	}
 }
 
+enum ButtonsStates{
+	PRESSED;
+	JUST_PRESSED;
+	JUST_RELEASED;
+}
+
 /**
  * A simple button class that calls a function when clicked by the touch.
  */

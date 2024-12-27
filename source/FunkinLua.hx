@@ -2950,17 +2950,17 @@ class FunkinLua {
             PlayState.instance.removeLuaVirtualPad();
         });
         
-        Lua_helper.add_callback(lua, "addVirtualPadCamera", (?DefaultDrawTarget:Bool=false) -> {
+        Lua_helper.add_callback(lua, "addVirtualPadCamera", () -> {
             if(PlayState.instance.luaVirtualPad == null){
-    			FunkinLua.luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
+    			luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
                 return;
             }
-            PlayState.instance.addVirtualPadCamera(DefaultDrawTarget);
+            PlayState.instance.addVirtualPadCamera();
         });
         
         Lua_helper.add_callback(lua, "virtualPadJustPressed", function(button:Dynamic):Bool {
             if(PlayState.instance.luaVirtualPad == null){
-    			FunkinLua.luaTrace('virtualPadJustPressed: Virtual Pad Does Not Exist!!');
+    			luaTrace('virtualPadJustPressed: Virtual Pad Does Not Exist!!');
                 return false;
             }
             return PlayState.instance.luaVirtualPadJustPressed(button);
@@ -2968,7 +2968,7 @@ class FunkinLua {
         
         Lua_helper.add_callback(lua, "virtualPadPressed", function(button:Dynamic):Bool {
             if(PlayState.instance.luaVirtualPad == null){
-    			FunkinLua.luaTrace('virtualPadPressed: Virtual Pad Does Not Exist!!');
+    			luaTrace('virtualPadPressed: Virtual Pad Does Not Exist!!');
                 return false;
             }
             return PlayState.instance.luaVirtualPadPressed(button);
@@ -2976,7 +2976,7 @@ class FunkinLua {
         
         Lua_helper.add_callback(lua, "virtualPadJustReleased", function(button:Dynamic):Bool {
             if(PlayState.instance.luaVirtualPad == null){
-    			FunkinLua.luaTrace('virtualPadJustReleased: Virtual Pad Does Not Exist!!');
+    			luaTrace('virtualPadJustReleased: Virtual Pad Does Not Exist!!');
                 return false;
             }
             return PlayState.instance.luaVirtualPadJustReleased(button);

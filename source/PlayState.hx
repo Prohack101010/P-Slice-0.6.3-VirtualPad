@@ -4616,7 +4616,7 @@ class PlayState extends MusicBeatState
 			removeLuaVirtualPad();
 		
 		luaVirtualPad = new FlxVirtualPad(Data.dpadMode.get(DPadMode), Data.actionMode.get(ActionMode));
-		luaVirtualPad.alpha = ClientPrefs.data.VirtualPadAlpha;
+		luaVirtualPad.alpha = ClientPrefs.VirtualPadAlpha;
 	}
 	public function addLuaVirtualPadCamera(?DefaultDrawTarget:Bool = false) {
 		if(luaVirtualPad != null) {
@@ -4633,6 +4633,7 @@ class PlayState extends MusicBeatState
 			remove(luaVirtualPad);
 		}
 	}
+	
 	public function luaVirtualPadPressed(button:Dynamic):Bool {
 		if(Std.isOfType(button, String))
 			return luaVirtualPad.buttonPressed(button);
