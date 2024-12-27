@@ -352,6 +352,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				Reflect.setField(this, field, FlxDestroyUtil.destroy(Reflect.field(this, field)));
 	}
 	
+	/**
 	* Check to see if the button was pressed.
 	*
 	* @param	button 	A button ID
