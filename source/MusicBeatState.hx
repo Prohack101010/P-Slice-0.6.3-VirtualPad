@@ -23,6 +23,8 @@ import flixel.util.FlxDestroyUtil;
 
 class MusicBeatState extends FlxUIState
 {
+    public static var instance:MusicBeatState;
+    
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
 
@@ -44,7 +46,7 @@ class MusicBeatState extends FlxUIState
 	
 	public static var checkHitbox:Bool = false;
 	
-	var _virtualpad:FlxVirtualPad;
+	public var _virtualpad:FlxVirtualPad;
 	public static var mobilec:MobileControls;
 	
 	var trackedinputsUI:Array<FlxActionInput> = [];

@@ -2943,7 +2943,7 @@ class FunkinLua {
 		});
 		
 		set("addVirtualPad", function(directionButton:String, actionButton:String){
-			if(MusicBeatState._virtualpad == null)
+			if(MusicBeatState.instance._virtualpad == null)
 				PlayState.instance.addLuaVirtualPad(MusicBeatState.dpadMode.get(directionButton), MusicBeatState.actionMode.get(actionButton));
 			else
 				luaTrace('virtual pad already exists!!');
@@ -2958,7 +2958,7 @@ class FunkinLua {
 		});
         
         Lua_helper.add_callback(lua, "virtualPadJustPressed", function(button:Dynamic):Bool {
-            if(MusicBeatState._virtualpad == null){
+            if(MusicBeatState.instance._virtualpad == null){
     			luaTrace('virtualPadJustPressed: Virtual Pad Does Not Exist!!');
                 return false;
             }
@@ -2966,7 +2966,7 @@ class FunkinLua {
         });
         
         Lua_helper.add_callback(lua, "virtualPadPressed", function(button:Dynamic):Bool {
-            if(MusicBeatState._virtualpad == null){
+            if(MusicBeatState.instance._virtualpad == null){
     			luaTrace('virtualPadPressed: Virtual Pad Does Not Exist!!');
                 return false;
             }
@@ -2974,7 +2974,7 @@ class FunkinLua {
         });
         
         Lua_helper.add_callback(lua, "virtualPadJustReleased", function(button:Dynamic):Bool {
-            if(MusicBeatState._virtualpad == null){
+            if(MusicBeatState.instance._virtualpad == null){
     			luaTrace('virtualPadJustReleased: Virtual Pad Does Not Exist!!');
                 return false;
             }
