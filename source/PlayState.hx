@@ -325,10 +325,6 @@ class PlayState extends MusicBeatState
 	// Callbacks for stages
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
-	
-	#if TOUCH_CONTROLS_ALLOWED
-	public var luaVirtualPad:FlxVirtualPad;
-	#end
 
 	override public function create()
 	{
@@ -4615,52 +4611,43 @@ class PlayState extends MusicBeatState
 	var curLightEvent:Int = -1;
 	
 	#if TOUCH_CONTROLS_ALLOWED
-	public function addLuaVirtualPad(DPadMode:String, ActionMode:String) {
-		// reseting?
-		if(luaVirtualPad.exists)
-			removeLuaVirtualPad();
-		
-		luaVirtualPad = new FlxVirtualPad(Data.dpadMode.get(DPadMode), Data.actionMode.get(ActionMode));
-		luaVirtualPad.alpha = ClientPrefs.VirtualPadAlpha;
+	public function addLuaVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
+	{
+		addVirtualPad(DPad, Action);
 	}
-	public function addLuaVirtualPadCamera(?DefaultDrawTarget:Bool = false) {
-		if(luaVirtualPad != null) {
-			luaVpadCam = new FlxCamera();
-			luaVpadCam.bgColor.alpha = 0;
-			FlxG.cameras.add(luaVpadCam, DefaultDrawTarget);
-			luaVirtualPad.cameras = [luaVpadCam];
-		}
+	
+	public function addLuaVirtualPadCamera()
+	{
+		addLuaVirtualPadCamera();
 	}
-	public function removeLuaVirtualPad() {
-		if (luaVirtualPad != null) {
-			luaVirtualPad.kill();
-			luaVirtualPad.destroy();
-			remove(luaVirtualPad);
-		}
+	
+	public function removeLuaVirtualPad()
+	{
+		removeVirtualPad();
 	}
 	
 	public function luaVirtualPadPressed(button:Dynamic):Bool {
 		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonPressed(button);
+			return _virtualpad.buttonPressed(button);
 		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyPressed(button);
+			return _virtualpad.anyPressed(button);
 		else
 			return false;
 	}
 	public function luaVirtualPadJustPressed(button:Dynamic):Bool {
 		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonJustPressed(button);
+			return _virtualpad.buttonJustPressed(button);
 		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyJustPressed(button);
+			return _virtualpad.anyJustPressed(button);
 		else
 			return false;
 	}
 	
 	public function luaVirtualPadJustReleased(button:Dynamic):Bool {
 		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonJustReleased(button);
+			return _virtualpad.buttonJustReleased(button);
 		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyJustReleased(button);
+			return _virtualpad.anyJustReleased(button);
 		else
 			return false;
 	}

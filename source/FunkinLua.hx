@@ -2942,21 +2942,20 @@ class FunkinLua {
 			return Haptic.vibrate(period, duration);
 		});
 		
-		Lua_helper.add_callback(lua, "addVirtualPad", (DPadMode:String, ActionMode:String) -> {
-          PlayState.instance.addLuaVirtualPad(DPadMode, ActionMode);
-        });
-        
-        Lua_helper.add_callback(lua, "removeVirtualPad", function(){
-            PlayState.instance.removeLuaVirtualPad();
-        });
-        
-        Lua_helper.add_callback(lua, "addVirtualPadCamera", () -> {
-            if(PlayState.instance.luaVirtualPad == null){
-    			luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
-                return;
-            }
-            PlayState.instance.addVirtualPadCamera();
-        });
+		set("addVirtualPad", function(directionButton:String, actionButton:String){
+			if(game.luaVirtualPad == null)
+				game.addLuaVirtualPad(MusicBeatState.dpadMode.get(directionButton), MusicBeatState.actionMode.get(actionButton));
+			else
+				luaTrace('virtual pad already exists!!');
+		});
+		
+		set("addVirtualPadCamera", function(){
+			game.addLuaVirtualPadCamera();
+		});
+		
+		set("removeVirtualPad", function(){
+			game.removeLuaVirtualPad();
+		});
         
         Lua_helper.add_callback(lua, "virtualPadJustPressed", function(button:Dynamic):Bool {
             if(PlayState.instance.luaVirtualPad == null){

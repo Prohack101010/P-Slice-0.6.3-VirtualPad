@@ -71,12 +71,6 @@ class FlxVirtualPad extends FlxSpriteGroup {
 
 	public function new(DPad:FlxDPadMode, Action:FlxActionMode) {
 		super();
-
-		dPad = new FlxSpriteGroup();
-		dPad.scrollFactor.set();
-
-		actions = new FlxSpriteGroup();
-		actions.scrollFactor.set();
 		
 		// DPad Buttons
     	buttonsString = new Map<String, FlxButton>();
@@ -105,23 +99,12 @@ class FlxVirtualPad extends FlxSpriteGroup {
     	buttonsString.set("buttonUp2", buttonUp2);
     	buttonsString.set("buttonRight2", buttonRight2);
     	buttonsString.set("buttonDown2", buttonDown2);
-    		
-    	/* not needed
-    	//Extras
-    	buttonsString.set("buttonExtra1", buttonExtra1);
-    	buttonsString.set("buttonExtra2", buttonExtra2);
-    	buttonsString.set("buttonExtra3", buttonExtra3);
-    	buttonsString.set("buttonExtra4", buttonExtra4);
-    	
-    	buttonsString.set("buttonCELeft", buttonCELeft);
-    	buttonsString.set("buttonCEUp", buttonCEUp);
-    	buttonsString.set("buttonCERight", buttonCERight);
-    	buttonsString.set("buttonCEDown", buttonCEDown);
-    	buttonsString.set("buttonCEG", buttonCEG);
-    		
-    	buttonsString.set("buttonCEUp_M", buttonCEUp_M);
-    	buttonsString.set("buttonCEDown_M", buttonCEDown_M);
-    	*/
+
+		dPad = new FlxSpriteGroup();
+		dPad.scrollFactor.set();
+
+		actions = new FlxSpriteGroup();
+		actions.scrollFactor.set();
 		
 		switch (DPad){
 			case UP_DOWN:
