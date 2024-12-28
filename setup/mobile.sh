@@ -5,7 +5,7 @@ haxelib newrepo
 echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
 haxelib install hscript 2.5.0
-haxelib git lime https://github.com/mcagabe19-stuff/lime.git
+haxelib git lime https://github.com/mcagabe19-stuff/lime.git f953817e017534b1475f63592943808436902d2b
 haxelib install openfl 9.2.1
 haxelib install flixel 5.2.2
 haxelib install flixel-addons 3.0.2
