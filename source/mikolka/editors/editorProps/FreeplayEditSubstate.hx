@@ -114,8 +114,9 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 		// anims.attachSprite(dj);
 		addEditorBox();
 		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad("LEFT_FULL", "FREEPLAY_EDIT");
-		touchPad.forEachAlive(function(button:TouchButton)
+		addVirtualPad(FULL, FREEPLAY_EDIT);
+		/*
+		_virtualpad.forEachAlive(function(button:TouchButton)
 		{
 			if (button.tag == 'UP' || button.tag == 'DOWN' || button.tag == 'LEFT' || button.tag == 'RIGHT')
 			{
@@ -128,6 +129,7 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 				FlxTween.tween(button, {x: button.x - 550}, 0.6, {ease: FlxEase.backInOut});
 			}
 		});
+		*/
 		#end
 		add(HelpSubstate.makeLabel());
 		super.create();
@@ -136,7 +138,7 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 	#if TOUCH_CONTROLS_ALLOWED
 	override function closeSubState() {
 		super.closeSubState();
-		addTouchPad("LEFT_FULL", "FREEPLAY_EDIT");
+		addVirtualPad(LEFT_FULL, FREEPLAY_EDIT);
 		controls.isInSubstate = true;
 	}
 	#end
@@ -164,52 +166,52 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 
 			if (dj_anim.activeSprite != null)
 			{
-				if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonDown.justPressed || #end controls.UI_DOWN_P)
+				if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonDown.justPressed || #end controls.UI_DOWN_P)
 					dj_selectAnim(1);
-				else if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonUp.justPressed || #end controls.UI_UP_P)
+				else if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonUp.justPressed || #end controls.UI_UP_P)
 					dj_selectAnim(-1);
-				else if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonX.justPressed || #end FlxG.keys.justPressed.SPACE)
+				else if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonX.justPressed || #end FlxG.keys.justPressed.SPACE)
 					dj_anim.input_playAnim();
-				else if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonY.pressed || #end FlxG.keys.pressed.SHIFT){
-					if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonLeft.pressed || #end controls.UI_LEFT)
+				else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonY.pressed || #end FlxG.keys.pressed.SHIFT){
+					if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonLeft.pressed || #end controls.UI_LEFT)
 						dj_anim.input_selectFrame(-1*timeScale);
-					else if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonRight.pressed || #end controls.UI_RIGHT)
+					else if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonRight.pressed || #end controls.UI_RIGHT)
 						dj_anim.input_selectFrame(1*timeScale);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonUp.pressed) || #end FlxG.keys.pressed.I)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonUp.pressed) || #end FlxG.keys.pressed.I)
 						dj_changeOffset(0,5*timeScale);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonLeft.pressed) || #end FlxG.keys.pressed.J)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonLeft.pressed) || #end FlxG.keys.pressed.J)
 						dj_changeOffset(5*timeScale,0);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonDown.pressed) || #end FlxG.keys.pressed.K)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonDown.pressed) || #end FlxG.keys.pressed.K)
 						dj_changeOffset(0,-5*timeScale);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonRight.pressed) || #end FlxG.keys.pressed.L)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonRight.pressed) || #end FlxG.keys.pressed.L)
 						dj_changeOffset(-5*timeScale,0);
 				}
 				else{
-					if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonLeft.justPressed || #end controls.UI_LEFT_P)
+					if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonLeft.justPressed || #end controls.UI_LEFT_P)
 						dj_anim.input_selectFrame(-1);
-					else if (#if TOUCH_CONTROLS_ALLOWED !touchPad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED touchPad.buttonRight.justPressed || #end controls.UI_RIGHT_P)
+					else if (#if TOUCH_CONTROLS_ALLOWED !_virtualpad.buttonA.pressed && #end #if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonRight.justPressed || #end controls.UI_RIGHT_P)
 						dj_anim.input_selectFrame(1);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonUp.justPressed) || #end FlxG.keys.justPressed.I)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonUp.justPressed) || #end FlxG.keys.justPressed.I)
 						dj_changeOffset(0,1);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonLeft.justPressed) || #end FlxG.keys.justPressed.J)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonLeft.justPressed) || #end FlxG.keys.justPressed.J)
 						dj_changeOffset(1,0);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonDown.justPressed) || #end FlxG.keys.justPressed.K)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonDown.justPressed) || #end FlxG.keys.justPressed.K)
 						dj_changeOffset(0,-1);
-					else if (#if TOUCH_CONTROLS_ALLOWED (touchPad.buttonA.pressed && touchPad.buttonRight.justPressed) || #end FlxG.keys.justPressed.L)
+					else if (#if TOUCH_CONTROLS_ALLOWED (_virtualpad.buttonA.pressed && _virtualpad.buttonRight.justPressed) || #end FlxG.keys.justPressed.L)
 						dj_changeOffset(-1,0);
 				}
 			}
 
-			if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonB.justPressed || #end controls.BACK && loaded)
+			if (controls.BACK && loaded)
 			{
 				dj_anim.saveAnimations();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				close();
 				controls.isInSubstate = false;
 			}
-			else if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
+			else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
 				persistentUpdate = false;
-				#if TOUCH_CONTROLS_ALLOWED removeTouchPad(); #end
+				#if TOUCH_CONTROLS_ALLOWED removeVirtualPad(); #end
 				openSubState(new HelpSubstate(controls.mobileC ? HelpSubstate.FREEPLAY_EDIT_TEXT_MOBILE : HelpSubstate.FREEPLAY_EDIT_TEXT));
 			}
 		}

@@ -61,25 +61,25 @@ class HelpSubstate extends MusicBeatSubstate {
 		fullTipText.screenCenter();
 		add(fullTipText);
 		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad("NONE", "F");
-		touchPad.y -= 124;
+		addVirtualPad(NONE, F);
+		_virtualpad.y -= 124;
 		#end
     }
     override function update(elapsed:Float) {
         super.update(elapsed);
-        if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonF.justPressed || #end FlxG.keys.justPressed.F1)
+        if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonF.justPressed || #end FlxG.keys.justPressed.F1)
 		{
 			_parentState.persistentUpdate = true;
             close();
 			#if TOUCH_CONTROLS_ALLOWED
 			if (MusicBeatState?.getState() != null)
-				MusicBeatState.getState().touchPad.visible = true;
+				MusicBeatState.getState()._virtualpad.visible = true;
 			
 			// had to add instance cuz this is also a substate :sob:
 			if (FreeplayEditSubstate?.instance != null)
 				Controls.instance.isInSubstate = true;
 
-			removeTouchPad();
+			removeVirtualPad();
 			#end
         }
     }

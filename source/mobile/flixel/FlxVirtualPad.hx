@@ -303,6 +303,19 @@ class FlxVirtualPad extends FlxSpriteGroup {
 			case B_E:
 				actions.add(add(buttonE = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, "e", 0xFF7D00)));
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, "b", 0xFFCB00)));
+			case F:
+				actions.add(add(buttonF = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, "f", 0xFF009D)));
+			case CHAR_SELECT:
+				actions.add(add(buttonF = createButton(FlxG.width - 170 * 3, FlxG.height - 45 * 3, "f", 0xFF009D)));
+				actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3, "x", 0x99062D)));
+				actions.add(add(buttonC = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, "c", 0x44FF00)));
+				actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, "b", 0xFFCB00)));
+			case FREEPLAY_EDIT:
+			    actions.add(add(buttonF = createButton(FlxG.width - 86 * 3, FlxG.height - 85 * 3, "f", 0xFF009D)));
+				actions.add(add(buttonY = createButton(FlxG.width - 170 * 3, FlxG.height - 45 * 3, "y", 0x4A35B9)));
+				actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3, "x", 0x99062D)));
+				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, "b", 0xFFCB00)));
+				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, "a", 0xFF0000)));
 			case NONE:
 		}
 	}

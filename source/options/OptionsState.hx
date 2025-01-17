@@ -35,20 +35,12 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
-<<<<<<< HEAD
-		if (label != "Adjust Delay and Combo") {
-			persistentUpdate = false;
-			#if TOUCH_CONTROLS_ALLOWED
-			removeVirtualPad();
-			#end
-=======
 		if (label != "Adjust Delay and Combo")
 		{
 			#if TOUCH_CONTROLS_ALLOWED
-			removeTouchPad();
+			removeVirtualPad();
 			#end
 			persistentUpdate = false;
->>>>>>> P-Slice/pe-0.6.3-dev
 		}
 
 		switch(label) {
@@ -117,12 +109,8 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 		controls.isInSubstate = false;
 		#if TOUCH_CONTROLS_ALLOWED
-<<<<<<< HEAD
 		removeVirtualPad();
 		addVirtualPad(UP_DOWN, A_B_E);
-=======
-		addTouchPad('UP_DOWN', 'A_B');
->>>>>>> P-Slice/pe-0.6.3-dev
 		#end
 		persistentUpdate = true;
 	}

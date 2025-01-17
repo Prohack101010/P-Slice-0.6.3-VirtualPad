@@ -84,5 +84,8 @@ enum FlxActionMode {
 	CHART_EDITOR;
 	controlExtend;
 	B_E;
+	F;
+	CHAR_SELECT;
+	FREEPLAY_EDIT;
 	NONE;
 }

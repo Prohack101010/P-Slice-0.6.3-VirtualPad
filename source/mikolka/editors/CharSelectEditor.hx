@@ -120,7 +120,7 @@ class CharSelectEditor extends MusicBeatState
 		add(HelpSubstate.makeLabel());
 
 		#if TOUCH_CONTROLS_ALLOWED
-		addTouchPad('LEFT_FULL', 'CHAR_SELECT');
+		addVirtualPad(FULL, CHAR_SELECT);
 		#end
 
 		super.create();
@@ -145,9 +145,9 @@ class CharSelectEditor extends MusicBeatState
 				MusicBeatState.startTransition(new MasterEditorMenu());
 				#end
 			}
-			else if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
+			else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
 				persistentUpdate = false;
-				#if TOUCH_CONTROLS_ALLOWED removeTouchPad(); #end
+				#if TOUCH_CONTROLS_ALLOWED removeVirtualPad(); #end
 				openSubState(new HelpSubstate(controls.mobileC ? HelpSubstate.CHAR_EDIT_TEXT_MOBILE : HelpSubstate.CHAR_EDIT_TEXT));
 			}
 			if (animPreview.activeSprite != null)
@@ -156,9 +156,9 @@ class CharSelectEditor extends MusicBeatState
 					animPreview.input_selectAnim(1);
 				if (controls.UI_UP_P)
 					animPreview.input_selectAnim(-1);
-				if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonX.justPressed || #end FlxG.keys.justPressed.SPACE)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonX.justPressed || #end FlxG.keys.justPressed.SPACE)
 					animPreview.input_playAnim();
-				if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonC.pressed || #end FlxG.keys.pressed.SHIFT)
+				if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonC.pressed || #end FlxG.keys.pressed.SHIFT)
 				{
 					if (controls.UI_LEFT)
 						animPreview.input_selectFrame(-1 * timeScale);
@@ -183,8 +183,8 @@ class CharSelectEditor extends MusicBeatState
 		super.closeSubState();
 		controls.isInSubstate = false;
 		#if TOUCH_CONTROLS_ALLOWED
-		removeTouchPad();
-		addTouchPad('LEFT_FULL', 'CHAR_SELECT');
+		removeVirtualPad();
+		addVirtualPad(FULL, CHAR_SELECT);
 		#end
 		persistentUpdate = true;
 	}

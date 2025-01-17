@@ -44,11 +44,7 @@ class StickerTest extends MusicBeatState {
         add(BG);
         addEditorBox();
         #if TOUCH_CONTROLS_ALLOWED
-<<<<<<< HEAD:source/editors/StickerTest.hx
         addVirtualPad(NONE, B);
-=======
-        addTouchPad('NONE','B');
->>>>>>> P-Slice/pe-0.6.3-dev:source/mikolka/editors/StickerTest.hx
         #end
         super.create();
     }
@@ -85,14 +81,9 @@ class StickerTest extends MusicBeatState {
         super.update(elapsed);
         if(PsychUIInputText.focusOn == null)
             {
-<<<<<<< HEAD:source/editors/StickerTest.hx
-                enableVolume();
-                if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end FlxG.keys.justPressed.ESCAPE){
-=======
                 FunkinControls.enableVolume();
 
-                if(#if TOUCH_CONTROLS_ALLOWED touchPad.buttonB.justPressed || #end controls.BACK){
->>>>>>> P-Slice/pe-0.6.3-dev:source/mikolka/editors/StickerTest.hx
+                if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end controls.BACK){
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     FlxG.mouse.visible = false;
                     #if LEGACY_PSYCH
