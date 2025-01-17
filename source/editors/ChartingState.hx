@@ -208,6 +208,7 @@ class ChartingState extends MusicBeatState
 	public var mouseQuant:Bool = false;
 	override function create()
 	{
+		PlayState.altInstrumentals = null;
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
 		else
@@ -952,6 +953,8 @@ function loadMetadata() {
 		0,songMetadata.freeplaySongLength,
 		0,FlxG.sound.music.length/1000);
 	characterName.text = songMetadata.freeplayCharacter;
+	txt_altInstSong.text = songMetadata.altInstrumentalSongs;
+	chk_allowNew.checked = songMetadata.allowNewTag;
 	albumName.text = songMetadata.albumId;
 }
 
@@ -960,6 +963,8 @@ var ratingInput:FlxUINumericStepper;
 	var prevEndInput:FlxUINumericStepper;
 	var characterName:FlxUIInputText;
 	var albumName:FlxUIInputText;
+	var txt_altInstSong:FlxUIInputText;
+	var chk_allowNew:FlxUICheckBox;
 	var exportMetadataBtn:FlxButton;
 	var maxTime:Float = 0.0;
 	function addMetadataTab()
@@ -967,11 +972,13 @@ var ratingInput:FlxUINumericStepper;
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = 'Metadata';
 		ratingInput = new FlxUINumericStepper(20, 30,1,0,0,99,0);
-		prevStartInput = new FlxUINumericStepper(20, 100,1,0,0,999,1); 
-		prevEndInput = new FlxUINumericStepper(20, 150,1,0,0,999,1);
+		prevStartInput = new FlxUINumericStepper(20, 70,1,0,0,999,1); 
+		prevEndInput = new FlxUINumericStepper(20, 120,1,0,0,999,1);
 		exportMetadataBtn = new FlxButton(20,200,"Export",onMetadataSaveClick.bind());
-		characterName = new FlxUIInputText(160,100,100,"",8);
-		albumName = new FlxUIInputText(160,150,100,"",8);
+		characterName = new FlxUIInputText(180,70,100,"",8);
+		albumName = new FlxUIInputText(180,120,100,"",8);
+		chk_allowNew = new FlxUICheckBox(180,30,null,null,"Show \"new\" tag");
+		txt_altInstSong = new FlxUIInputText(20,160,250,"",8);
 
 		tab_group.add(new FlxText(ratingInput.x, ratingInput.y - 15, 80, 'Rating:'));
 		tab_group.add(ratingInput);
@@ -993,6 +1000,11 @@ var ratingInput:FlxUINumericStepper;
 		tab_group.add(albumName);
 		blockPressWhileTypingOn.push(albumName);
 
+		tab_group.add(new FlxText(txt_altInstSong.x, txt_altInstSong.y - 15, 300, 'Song alt vocals (separated with \',\'):'));
+		tab_group.add(txt_altInstSong);
+		blockPressWhileTypingOn.push(txt_altInstSong);
+		
+		tab_group.add(chk_allowNew);
 		tab_group.add(exportMetadataBtn);
 
 		UI_box.addGroup(tab_group);
@@ -1005,7 +1017,9 @@ var ratingInput:FlxUINumericStepper;
 		meta.freeplayPrevStart = prevStartInput.value;
 		meta.freeplayPrevEnd = prevEndInput.value;
 		meta.albumId = albumName.text;
+		meta.altInstrumentalSongs = txt_altInstSong.text;
 		meta.freeplayCharacter = characterName.text;
+		meta.allowNewTag = chk_allowNew.checked;
 		meta.freeplaySongLength = FlxG.sound.music.length/1000;
 
 		var data:String = haxe.Json.stringify(meta, "\t");

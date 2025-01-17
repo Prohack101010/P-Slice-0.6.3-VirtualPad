@@ -1,5 +1,6 @@
 package mikolka.vslice.freeplay;
 
+import mikolka.vslice.freeplay.obj.CapsuleOptionsMenu;
 import mikolka.compatibility.FunkinControls;
 import mikolka.vslice.charSelect.CharSelectSubState;
 import openfl.filters.ShaderFilter;
@@ -284,7 +285,7 @@ class FreeplayState extends MusicBeatSubstate
 			case 'pico':
 				backingCard = new PicoCard(currentCharacter);
 			default:
-				backingCard = new BackingCard(currentCharacter);
+				backingCard = new BoyfriendCard(currentCharacter);//new BackingCard(currentCharacter);
 		}
 		}
 		else backingCard = new BoyfriendCard(currentCharacter);
@@ -1441,8 +1442,13 @@ class FreeplayState extends MusicBeatSubstate
 				});
 			}
 			#if TOUCH_CONTROLS_ALLOWED
+<<<<<<< HEAD
 			_virtualpad.alpha = 0;
 			FlxTween.tween(_virtualpad, {alpha: ClientPrefs.VirtualPadAlpha}, 0.8, {ease: FlxEase.backIn});
+=======
+			touchPad.alpha = 0;
+			FlxTween.tween(touchPad, {alpha: ClientPrefs.data.controlsAlpha}, 0.8, {ease: FlxEase.backIn});
+>>>>>>> P-Slice/pe-0.6.3-dev
 			#end
 		}
 	}
@@ -1998,9 +2004,19 @@ class FreeplayState extends MusicBeatSubstate
 	function capsuleOnOpenDefault(cap:SongMenuItem):Void
 	{
 		// We don't have a good way to do this in psych
-		// ? yet
-		trace('ALT INSTRUMENTALS ARE DISABLED!');
-		capsuleOnConfirmDefault(cap);
+		// ? yet instVariants
+		
+	
+		if (cap.songData.instVariants.length > 0 && cap.songData.instVariants[0] != "")
+		{
+		  var instrumentalIds = ["default"].concat(cap.songData.instVariants);
+		  openInstrumentalList(cap, instrumentalIds);
+		}
+		else
+		{
+		  trace('NO ALTS');
+		  capsuleOnConfirmDefault(cap);
+		}
 	}
 
 	public function getControls():Controls
@@ -2008,6 +2024,32 @@ class FreeplayState extends MusicBeatSubstate
 		return controls;
 	}
 
+	function openInstrumentalList(cap:SongMenuItem, instrumentalIds:Array<String>):Void
+		{
+		  busy = true;
+	  
+		  capsuleOptionsMenu = new CapsuleOptionsMenu(this, cap.x + 175, cap.y + 115, instrumentalIds);
+		  capsuleOptionsMenu.cameras = [funnyCam];
+		  capsuleOptionsMenu.zIndex = 10000;
+		  add(capsuleOptionsMenu);
+	  
+		  capsuleOptionsMenu.onConfirm = function(targetInstId:String) {
+			capsuleOnConfirmDefault(cap, targetInstId);
+		  };
+		}
+
+	var capsuleOptionsMenu:Null<CapsuleOptionsMenu> = null;
+
+	public function cleanupCapsuleOptionsMenu():Void
+	{
+		this.busy = false;
+	  
+		if (capsuleOptionsMenu != null)
+		{
+		remove(capsuleOptionsMenu);
+		capsuleOptionsMenu = null;
+		}
+	}
 	/**
 	 * Called when hitting ENTER to play the song.
 	 */
@@ -2056,7 +2098,7 @@ class FreeplayState extends MusicBeatSubstate
 
 		new FlxTimer().start(styleData?.getStartDelay(), function(tmr:FlxTimer)
 		{
-			FreeplayHelpers.moveToPlaystate(this, cap.songData, currentDifficulty);
+			FreeplayHelpers.moveToPlaystate(this, cap.songData, currentDifficulty,targetInstId);
 		});
 	}
 

@@ -318,6 +318,7 @@ class PauseSubState extends MusicBeatSubstate
 					}
 					PlayState.cancelMusicFadeTween();
 					PlayState.changedDifficulty = false;
+					PlayState.altInstrumentals = null;
 					PlayState.chartingMode = false;
 				default:
 					if (daSelected == cutscene_skipTxt)

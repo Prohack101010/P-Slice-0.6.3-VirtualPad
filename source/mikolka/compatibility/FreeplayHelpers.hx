@@ -1,5 +1,7 @@
 package mikolka.compatibility;
 
+import mikolka.vslice.components.crash.UserErrorSubstate;
+import openfl.utils.AssetType;
 import mikolka.vslice.freeplay.pslice.FreeplayColorTweener;
 import mikolka.vslice.freeplay.pslice.BPMCache;
 import mikolka.vslice.freeplay.FreeplayState;
@@ -47,7 +49,7 @@ class FreeplayHelpers
 		return songs;
 	}
 
-	public static function moveToPlaystate(state:FreeplayState, cap:FreeplaySongData, currentDifficulty:String)
+	public static function moveToPlaystate(state:FreeplayState, cap:FreeplaySongData, currentDifficulty:String,targetInstId:String)
 	{
 		// FunkinSound.emptyPartialQueue();
 
@@ -86,13 +88,28 @@ class FreeplayHelpers
 		catch (e:Dynamic)
 		{
 			trace('ERROR! $e');
+			state.openSubState(new UserErrorSubstate("Failed to load a song",
+					'$e'
+					));
 			@:privateAccess {
 				state.busy = false;
 				state.letterSort.inputEnabled = true;
 			}
-			FlxG.sound.play(Paths.sound('cancelMenu'));
 			return;
 		}
+		if(targetInstId != null && targetInstId != "default"){
+			var instPath = '${Paths.formatToSongPath(targetInstId)}/Inst.ogg';
+			if(Paths.fileExists(instPath,AssetType.BINARY,false,"songs")){
+				PlayState.altInstrumentals = targetInstId;
+			}
+			else{
+				state.openSubState(new UserErrorSubstate("Missing instrumentals",
+					'Couldn\'t find Inst in \nsongs/${instPath}\nMake sure that there is a Inst.ogg file'
+					));
+					return;
+			}
+		}
+		else PlayState.altInstrumentals = null; //? P-Slice
 		LoadingState.loadAndSwitchState(new PlayState());
 
 		FlxG.sound.music.volume = 0;
@@ -123,6 +140,9 @@ class FreeplayHelpers
 		Paths.currentModDirectory = songData.folder;
 		PlayState.storyWeek = songData.levelId; // TODO
 		CoolUtil.difficulties = songData.songDifficulties;
+	}
+	public static function resetDiffs(){
+		CoolUtil.difficulties = CoolUtil.defaultDifficulties;
 	}
 	public static function getDifficultyName(){
 		//Difficulty.list[PlayState.storyDifficulty].toUpperCase()

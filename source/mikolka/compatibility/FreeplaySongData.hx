@@ -36,6 +36,7 @@ using mikolka.funkin.utils.ArrayTools;
       public var freeplayPrevStart(default, null):Float = 0;
       public var freeplayPrevEnd(default, null):Float = 0;
       public var currentDifficulty(default, set):String = "normal";
+      public var instVariants:Array<String>;
   
       public var scoringRank:Null<ScoringRank> = null;
  
@@ -59,8 +60,9 @@ using mikolka.funkin.utils.ArrayTools;
             freeplayPrevStart = meta.freeplayPrevStart/meta.freeplaySongLength;
             freeplayPrevEnd = meta.freeplayPrevEnd/meta.freeplaySongLength;
             albumId = meta.albumId;
+            instVariants = meta.altInstrumentalSongs.split(",");
             songPlayer = meta.freeplayCharacter;
-    
+            isNew = meta.allowNewTag;
             updateValues();
     
             this.isFav = ClientPrefs.favSongIds.contains(songId+this.levelName);//Save.instance.isSongFavorited(songId);
@@ -133,7 +135,15 @@ using mikolka.funkin.utils.ArrayTools;
          // this.difficultyRating = songDifficulty.difficultyRating;
          this.scoringRank = Scoring.calculateRankForSong(Highscore.formatSong(songId, loadAndGetDiffId()));
  
-         this.isNew = false; // song.isSongNew(currentDifficulty);
+         var wasCompleted = false;
+         var saveSongName = Paths.formatToSongPath(songId);
+         for (x in Highscore.songScores.keys()){
+            if(x.startsWith(saveSongName) && Highscore.songScores[x] > 0){
+                wasCompleted = true;
+                break;
+            }
+         }
+         isNew = (( ClientPrefs.vsliceForceNewTag || isNew) && !wasCompleted); 
      }
      public function loadAndGetDiffId() {
          var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[levelId]);

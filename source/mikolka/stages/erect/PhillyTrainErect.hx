@@ -58,7 +58,9 @@ class PhillyTrainErect extends PicoCapableStage
 		phillyStreet = new BGSprite('philly/erect/street', -40, 50);
 		add(phillyStreet);
 
-		if(!seenCutscene) setStartCallback(ughIntro);
+		if(!seenCutscene 
+			&& PlayState.SONG.player1 == "pico-playable" 
+			&& PlayState.SONG.player2 == "pico") setStartCallback(ughIntro);
 	}
 
 	override function createPost()
@@ -257,7 +259,7 @@ class PhillyTrainErect extends PicoCapableStage
 		prepareCutscene();
 		seenOutcome = false;
 		// 50/50 chance for who shoots
-		if (true)//FlxG.random.bool(50))
+		if (FlxG.random.bool(50))
 		{
 			playerShoots = true;
 		}
@@ -265,7 +267,7 @@ class PhillyTrainErect extends PicoCapableStage
 		{
 			playerShoots = false;
 		}
-		if (true) // FlxG.random.bool(8))
+		if (FlxG.random.bool(8))
 		{
 			explode = true;
 		}

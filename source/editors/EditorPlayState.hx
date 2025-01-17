@@ -474,7 +474,7 @@ class EditorPlayState extends MusicBeatState
 
 					if (!daNote.isSustainNote)
 					{
-						if (!ClientPrefs.lowQuality) daNote.kill();
+						//if (!ClientPrefs.lowQuality) daNote.kill();
 						notes.remove(daNote, true);
 						daNote.destroy();
 					}
@@ -489,7 +489,7 @@ class EditorPlayState extends MusicBeatState
 							//Dupe note remove
 							notes.forEachAlive(function(note:Note) {
 								if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 10) {
-									if (!ClientPrefs.lowQuality) note.kill();
+									//if (!ClientPrefs.lowQuality) note.kill();
 									notes.remove(note, true);
 									note.destroy();
 								}
@@ -505,7 +505,7 @@ class EditorPlayState extends MusicBeatState
 					daNote.active = false;
 					daNote.visible = false;
 
-					if (!ClientPrefs.lowQuality) daNote.kill();
+					//if (!ClientPrefs.lowQuality) daNote.kill();
 					notes.remove(daNote, true);
 					daNote.destroy();
 				}
@@ -604,7 +604,7 @@ class EditorPlayState extends MusicBeatState
 					{
 						for (doubleNote in pressNotes) {
 							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								if (!ClientPrefs.lowQuality) doubleNote.kill();
+								//if (!ClientPrefs.lowQuality) doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
 							} else
@@ -680,6 +680,98 @@ class EditorPlayState extends MusicBeatState
 		return -1;
 	}
 
+<<<<<<< HEAD
+=======
+	#if TOUCH_CONTROLS_ALLOWED
+	private function onHintPress(button:TouchButton):Void
+	{
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
+
+		if (buttonCode > -1 && button.justPressed)
+		{
+			if(generatedMusic)
+			{
+				//more accurate hit time for the ratings?
+				var lastTime:Float = Conductor.songPosition;
+				Conductor.songPosition = FlxG.sound.music.time;
+
+				var canMiss:Bool = !ClientPrefs.ghostTapping;
+
+				// heavily based on my own code LOL if it aint broke dont fix it
+				var pressNotes:Array<Note> = [];
+				//var notesDatas:Array<Int> = [];
+				var notesStopped:Bool = false;
+
+				//trace('test!');
+				var sortedNotesList:Array<Note> = [];
+				notes.forEachAlive(function(daNote:Note)
+				{
+					if (daNote.canBeHit && daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote)
+					{
+						if(daNote.noteData == buttonCode)
+						{
+							sortedNotesList.push(daNote);
+							//notesDatas.push(daNote.noteData);
+						}
+						canMiss = true;
+					}
+				});
+				sortedNotesList.sort(sortHitNotes);
+
+				if (sortedNotesList.length > 0) {
+					for (epicNote in sortedNotesList)
+					{
+						for (doubleNote in pressNotes) {
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+								//if (!ClientPrefs.lowQuality) doubleNote.kill();
+								notes.remove(doubleNote, true);
+								doubleNote.destroy();
+							} else
+								notesStopped = true;
+						}
+
+						// eee jack detection before was not super good
+						if (!notesStopped) {
+							goodNoteHit(epicNote);
+							pressNotes.push(epicNote);
+						}
+
+					}
+				}
+				else if (canMiss && ClientPrefs.ghostTapping) {
+					noteMiss();
+				}
+
+				//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
+				Conductor.songPosition = lastTime;
+			}
+
+			var spr:StrumNote = playerStrums.members[buttonCode];
+			if(spr != null && spr.animation.curAnim.name != 'confirm')
+			{
+				spr.playAnim('pressed');
+				spr.resetAnim = 0;
+			}
+		}
+	}
+
+	private function onHintRelease(button:TouchButton):Void
+	{
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
+
+		if(buttonCode > -1)
+		{
+			var spr:StrumNote = playerStrums.members[buttonCode];
+			if(spr != null)
+			{
+				spr.playAnim('static');
+				spr.resetAnim = 0;
+			}
+		}
+	}
+	#end
+
+>>>>>>> P-Slice/pe-0.6.3-dev
 	private function keyShit():Void
 	{
 		// HOLDING
@@ -752,7 +844,7 @@ class EditorPlayState extends MusicBeatState
 
 					if (!note.isSustainNote)
 					{
-						if (!ClientPrefs.lowQuality) note.kill();
+						//if (!ClientPrefs.lowQuality) note.kill();
 						notes.remove(note, true);
 						note.destroy();
 					}
@@ -780,7 +872,7 @@ class EditorPlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				if (!ClientPrefs.lowQuality) note.kill();
+				//if (!ClientPrefs.lowQuality) note.kill();
 				notes.remove(note, true);
 				note.destroy();
 			}

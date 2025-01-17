@@ -152,6 +152,7 @@ class PlayState extends MusicBeatState
 	public static var isStoryMode:Bool = false;
 	// ! new shit
 	public static var storyCampaignTitle = "";
+	public static var altInstrumentals:String = null;
 	public static var storyDifficultyColor = FlxColor.GRAY;
 
 	public static var storyWeek:Int = 0;
@@ -510,21 +511,36 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			case 'stage': new StageWeek1(); 			//Week 1
-			case 'spooky': new Spooky();				//Week 2
-			case 'philly': new Philly();				//Week 3
-			case 'limo': new Limo();					//Week 4
-			case 'mall': new Mall();					//Week 5 - Cocoa, Eggnog
-			case 'mallEvil': new MallEvil();			//Week 5 - Winter Horrorland
-			case 'school': new School();				//Week 6 - Senpai, Roses
-			case 'schoolEvil': new SchoolEvil();		//Week 6 - Thorns
-			case 'tank': new Tank();					//Week 7 - Ugh, Guns, Stress
-			case 'mainStageErect': new MainStageErect();			//Week 1 Special 
-			case 'spookyMansionErect': new SpookyMansionErect();	//Week 2 Special 
-			case 'phillyTrainErect': new PhillyTrainErect();  		//Week 3 Special 
-			case 'limoRideErect': new LimoRideErect();  			//Week 4 Special 
-			case 'mallXmasErect': new MallXmasErect(); 				//Week 5 Special
-			case 'phillyStreetsErect': new PhillyStreetsErect(); 	//Weekend 1 Special 
+			case 'stage':
+				new StageWeek1(); // Week 1
+			case 'spooky':
+				new Spooky(); // Week 2
+			case 'philly':
+				new Philly(); // Week 3
+			case 'limo':
+				new Limo(); // Week 4
+			case 'mall':
+				new Mall(); // Week 5 - Cocoa, Eggnog
+			case 'mallEvil':
+				new MallEvil(); // Week 5 - Winter Horrorland
+			case 'school':
+				new School(); // Week 6 - Senpai, Roses
+			case 'schoolEvil':
+				new SchoolEvil(); // Week 6 - Thorns
+			case 'tank':
+				new Tank(); // Week 7 - Ugh, Guns, Stress
+			case 'mainStageErect':
+				new MainStageErect(); // Week 1 Special
+			case 'spookyMansionErect':
+				new SpookyMansionErect(); // Week 2 Special
+			case 'phillyTrainErect':
+				new PhillyTrainErect(); // Week 3 Special
+			case 'limoRideErect':
+				new LimoRideErect(); // Week 4 Special
+			case 'mallXmasErect':
+				new MallXmasErect(); // Week 5 Special
+			case 'phillyStreetsErect':
+				new PhillyStreetsErect(); // Weekend 1 Special
 		}
 
 		if (isPixelStage)
@@ -536,7 +552,6 @@ class PlayState extends MusicBeatState
 
 		add(dadGroup);
 		add(boyfriendGroup);
-
 
 		#if LUA_ALLOWED
 		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
@@ -628,7 +643,6 @@ class PlayState extends MusicBeatState
 			gf.scrollFactor.set(0.95, 0.95);
 			gfGroup.add(gf);
 			startCharacterLua(gf.curCharacter);
-
 		}
 
 		dad = new Character(0, 0, SONG.player2);
@@ -922,10 +936,10 @@ class PlayState extends MusicBeatState
 			#else
 			foldersToCheck.insert(0, Paths.modFolders('data/' + Paths.formatToSongPath(SONG.song)) + '/');
 			#end
-		for (mod in Paths.getGlobalMods())
-			foldersToCheck.insert(0,
-				Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) +
-					'/')); // using push instead of insert because these should run after everything else
+			for (mod in Paths.getGlobalMods())
+				foldersToCheck.insert(0,
+					Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) +
+						'/')); // using push instead of insert because these should run after everything else
 		#end
 
 		for (folder in foldersToCheck)
@@ -1593,7 +1607,7 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
+				//if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
 				unspawnNotes.remove(daNote);
 				daNote.destroy();
 			}
@@ -1610,7 +1624,7 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
+				//if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
 				notes.remove(daNote, true);
 				daNote.destroy();
 			}
@@ -1690,7 +1704,7 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
-		FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 1, false);
+		FlxG.sound.playMusic(Paths.inst(altInstrumentals ?? PlayState.SONG.song), 1, false);
 		FlxG.sound.music.pitch = playbackRate;
 		FlxG.sound.music.onComplete = finishSong.bind();
 		vocals.play();
@@ -1907,7 +1921,6 @@ class PlayState extends MusicBeatState
 
 	function eventPushed(event:EventNote)
 	{
-		
 		if (!eventPushedMap.exists(event.event))
 		{
 			eventPushedMap.set(event.event, true);
@@ -2164,8 +2177,13 @@ class PlayState extends MusicBeatState
 		}
 		else
 			healthLerp = health;
+<<<<<<< HEAD
 		if (video != null && (controls.ACCEPT || controls.PAUSE #if android || FlxG.android.justReleased.BACK #end)) // ! Video handler
 		{ 
+=======
+		if (video != null && (controls.ACCEPT || controls.PAUSE #if android || FlxG.android.justReleased.BACK #elseif TOUCH_CONTROLS_ALLOWED || touchPad.buttonP.justPressed #end)) // ! Video handler
+		{
+>>>>>>> P-Slice/pe-0.6.3-dev
 			persistentUpdate = false;
 			persistentDraw = true;
 			paused = true;
@@ -2173,18 +2191,20 @@ class PlayState extends MusicBeatState
 			var pause = new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, true, VIDEO);
 			pause.cutscene_hardReset = false;
 			openSubState(pause);
-			subStateClosed.addOnce(s ->{
-				switch (pause.specialAction){
+			subStateClosed.addOnce(s ->
+			{
+				switch (pause.specialAction)
+				{
 					case RESUME: video.resume();
-					case SKIP:{
-						video.stop();
-						video.bitmap.onEndReached.dispatch();
-					}
-					case RESTART:{
-						video.bitmap.time = 0;
-						video.resume();
-					}
-					case NOTHING:{}
+					case SKIP: {
+							video.stop();
+							video.bitmap.onEndReached.dispatch();
+						}
+					case RESTART: {
+							video.bitmap.time = 0;
+							video.resume();
+						}
+					case NOTHING: {}
 				}
 			});
 		}
@@ -2223,7 +2243,11 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
+<<<<<<< HEAD
 		if ((controls.PAUSE #if android || FlxG.android.justReleased.BACK #end) && startedCountdown && canPause)
+=======
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #elseif TOUCH_CONTROLS_ALLOWED || touchPad.buttonP.justPressed #end && startedCountdown && canPause)
+>>>>>>> P-Slice/pe-0.6.3-dev
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if (ret != FunkinLua.Function_Stop)
@@ -2517,7 +2541,7 @@ class PlayState extends MusicBeatState
 						daNote.active = false;
 						daNote.visible = false;
 
-						if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
+						//if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
 						notes.remove(daNote, true);
 						daNote.destroy();
 					}
@@ -2673,7 +2697,6 @@ class PlayState extends MusicBeatState
 	{
 		switch (eventName)
 		{
-
 			case 'Hey!':
 				var value:Int = 2;
 				switch (value1.toLowerCase().trim())
@@ -2702,7 +2725,6 @@ class PlayState extends MusicBeatState
 						gf.specialAnim = true;
 						gf.heyTimer = time;
 					}
-
 				}
 				if (value != 1)
 				{
@@ -2979,7 +3001,7 @@ class PlayState extends MusicBeatState
 		}
 		var flValue1 = Std.parseFloat(value1);
 		var flValue2 = Std.parseFloat(value2);
-		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, -1)); //? hopefully this will work
+		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, -1)); // ? hopefully this will work
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
 
@@ -3062,7 +3084,7 @@ class PlayState extends MusicBeatState
 
 	public function finishSong(?ignoreNoteOffset:Bool = false):Void
 	{
-		//var finishCallback:Void->Void = endSong; // In case you want to change it in a specific song.
+		// var finishCallback:Void->Void = endSong; // In case you want to change it in a specific song.
 
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
@@ -3130,8 +3152,19 @@ class PlayState extends MusicBeatState
 		else
 		{
 			var achieve:String = checkForAchievement([
-				'week1_nomiss', 'week2_nomiss', 'week3_nomiss', 'week4_nomiss', 'week5_nomiss', 'week6_nomiss', 'week7_nomiss', 'ur_bad', 'ur_good', 'hype',
-				'two_keys', 'toastie', 'debugger'
+				'week1_nomiss',
+				'week2_nomiss',
+				'week3_nomiss',
+				'week4_nomiss',
+				'week5_nomiss',
+				'week6_nomiss',
+				'week7_nomiss',
+				'ur_bad',
+				'ur_good',
+				'hype',
+				'two_keys',
+				'toastie',
+				'debugger'
 			]);
 
 			if (achieve != null)
@@ -3192,6 +3225,16 @@ class PlayState extends MusicBeatState
 						CustomFadeTransition.nextCamera = null;
 					}
 
+					if (SONG.validScore)
+					{
+						#if !switch
+						var percent:Float = ratingPercent;
+						if (Math.isNaN(percent))
+							percent = 0;
+						Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, songMisses == 0);
+						#end
+					}
+
 					// if ()
 					if (!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false))
 					{
@@ -3218,6 +3261,16 @@ class PlayState extends MusicBeatState
 					trace('LOADING NEXT SONG');
 					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
+					if (SONG.validScore)
+					{
+							#if !switch
+							var percent:Float = ratingPercent;
+							if (Math.isNaN(percent))
+								percent = 0;
+							Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, songMisses == 0);
+							#end
+					}
+
 					var winterHorrorlandNext = (Paths.formatToSongPath(SONG.song) == "eggnog");
 					if (winterHorrorlandNext)
 					{
@@ -3235,6 +3288,8 @@ class PlayState extends MusicBeatState
 
 					prevCamFollow = camFollow;
 					prevCamFollowPos = camFollowPos;
+
+					
 
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
@@ -3270,15 +3325,15 @@ class PlayState extends MusicBeatState
 				}
 				zoomIntoResultsScreen(prevScore < tempActiveTallises.score, tempActiveTallises, prevRank);
 				changedDifficulty = false;
-			}
-			if (SONG.validScore)
-			{
-				#if !switch
-				var percent:Float = ratingPercent;
-				if (Math.isNaN(percent))
-					percent = 0;
-				Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, songMisses == 0);
-				#end
+				if (SONG.validScore)
+				{
+					#if !switch
+					var percent:Float = ratingPercent;
+					if (Math.isNaN(percent))
+						percent = 0;
+					Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, songMisses == 0);
+					#end
+				}
 			}
 
 			transitioning = true;
@@ -3454,7 +3509,7 @@ class PlayState extends MusicBeatState
 			daNote.active = false;
 			daNote.visible = false;
 
-			if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
+			//if (!ClientPrefs.lowQuality || !cpuControlled) daNote.kill();
 			notes.remove(daNote, true);
 			daNote.destroy();
 		}
@@ -3751,7 +3806,7 @@ class PlayState extends MusicBeatState
 						{
 							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1)
 							{
-								if (!ClientPrefs.lowQuality || !cpuControlled) doubleNote.kill();
+								//if (!ClientPrefs.lowQuality || !cpuControlled) doubleNote.kill();
 								notes.remove(doubleNote, true);
 								doubleNote.destroy();
 							}
@@ -3843,6 +3898,127 @@ class PlayState extends MusicBeatState
 		return -1;
 	}
 
+<<<<<<< HEAD
+=======
+	#if TOUCH_CONTROLS_ALLOWED
+	private function onHintPress(button:TouchButton):Void
+	{
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
+
+		if (!cpuControlled
+			&& startedCountdown
+			&& !paused
+			&& buttonCode > -1
+			&& button.justPressed)
+		{
+			if (!boyfriend.stunned && generatedMusic && !endingSong)
+			{
+				// more accurate hit time for the ratings?
+				var lastTime:Float = Conductor.songPosition;
+				Conductor.songPosition = FlxG.sound.music.time;
+
+				var canMiss:Bool = !ClientPrefs.ghostTapping;
+
+				// heavily based on my own code LOL if it aint broke dont fix it
+				var pressNotes:Array<Note> = [];
+				// var notesDatas:Array<Int> = [];
+				var notesStopped:Bool = false;
+
+				var sortedNotesList:Array<Note> = [];
+				notes.forEachAlive(function(daNote:Note)
+				{
+					if (strumsBlocked[daNote.noteData] != true
+						&& daNote.canBeHit
+						&& daNote.mustPress
+						&& !daNote.tooLate
+						&& !daNote.wasGoodHit
+						&& !daNote.isSustainNote
+						&& !daNote.blockHit)
+					{
+						if (daNote.noteData == buttonCode)
+						{
+							sortedNotesList.push(daNote);
+							// notesDatas.push(daNote.noteData);
+						}
+						canMiss = true;
+					}
+				});
+				sortedNotesList.sort(sortHitNotes);
+
+				if (sortedNotesList.length > 0)
+				{
+					for (epicNote in sortedNotesList)
+					{
+						for (doubleNote in pressNotes)
+						{
+							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1)
+							{
+								//if (!ClientPrefs.lowQuality || !cpuControlled) doubleNote.kill();
+								notes.remove(doubleNote, true);
+								doubleNote.destroy();
+							}
+							else
+								notesStopped = true;
+						}
+
+						// eee jack detection before was not super good
+						if (!notesStopped)
+						{
+							goodNoteHit(epicNote);
+							pressNotes.push(epicNote);
+						}
+					}
+				}
+				else
+				{
+					callOnLuas('onGhostTap', [buttonCode]);
+					if (canMiss)
+					{
+						noteMissPress(buttonCode);
+					}
+				}
+
+				// I dunno what you need this for but here you go
+				//									- Shubs
+
+				// Shubs, this is for the "Just the Two of Us" achievement lol
+				//									- Shadow Mario
+				keysPressed[buttonCode] = true;
+
+				// more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
+				Conductor.songPosition = lastTime;
+			}
+
+			var spr:StrumNote = playerStrums.members[buttonCode];
+			if (strumsBlocked[buttonCode] != true && spr != null && spr.animation.curAnim.name != 'confirm')
+			{
+				spr.playAnim('pressed');
+				spr.resetAnim = 0;
+			}
+			callOnLuas('onKeyPress', [buttonCode]);
+			callOnLuas('onHintPress', [buttonCode]);
+		}
+	}
+
+	private function onHintRelease(button:TouchButton):Void
+	{
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('HITBOX')) ? button.IDs[0] : button.IDs[1];
+
+		if (!cpuControlled && startedCountdown && !paused && buttonCode > -1)
+		{
+			var spr:StrumNote = playerStrums.members[buttonCode];
+			if (spr != null)
+			{
+				spr.playAnim('static');
+				spr.resetAnim = 0;
+			}
+			callOnLuas('onKeyRelease', [buttonCode]);
+			callOnLuas('onHintRelease', [buttonCode]);
+		}
+	}
+	#end
+
+>>>>>>> P-Slice/pe-0.6.3-dev
 	// Hold notes
 	private function keyShit():Void
 	{
@@ -3939,7 +4115,7 @@ class PlayState extends MusicBeatState
 				&& daNote.isSustainNote == note.isSustainNote
 				&& Math.abs(daNote.strumTime - note.strumTime) < 1)
 			{
-				if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
+				//if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
 				notes.remove(note, true);
 				note.destroy();
 			}
@@ -4018,10 +4194,10 @@ class PlayState extends MusicBeatState
 
 			/*boyfriend.stunned = true;
 	
-				// get stunned for 1/60 of a second, makes you able to
-				new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
-				{
-					boyfriend.stunned = false;
+							// get stunned for 1/60 of a second, makes you able to
+							new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
+							{
+								boyfriend.stunned = false;
 			});*/
 
 			if (boyfriend.hasMissAnimations)
@@ -4091,7 +4267,7 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
-			if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
+			//if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
 			notes.remove(note, true);
 			note.destroy();
 		}
@@ -4133,7 +4309,7 @@ class PlayState extends MusicBeatState
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
 				{
-					if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
+					//if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
 					notes.remove(note, true);
 					note.destroy();
 				}
@@ -4214,7 +4390,7 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
-				if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
+				//if (!ClientPrefs.lowQuality || !cpuControlled) note.kill();
 				notes.remove(note, true);
 				note.destroy();
 			}
