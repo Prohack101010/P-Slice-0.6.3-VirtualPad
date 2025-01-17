@@ -148,7 +148,7 @@ class CharSelectEditor extends MusicBeatState
 			else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
 				persistentUpdate = false;
 				#if TOUCH_CONTROLS_ALLOWED removeVirtualPad(); #end
-				openSubState(new HelpSubstate(controls.mobileC ? HelpSubstate.CHAR_EDIT_TEXT_MOBILE : HelpSubstate.CHAR_EDIT_TEXT));
+				openSubState(new HelpSubstate(#if mobile HelpSubstate.CHAR_EDIT_TEXT_MOBILE #else HelpSubstate.CHAR_EDIT_TEXT #end));
 			}
 			if (animPreview.activeSprite != null)
 			{

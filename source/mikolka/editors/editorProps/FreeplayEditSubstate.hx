@@ -138,7 +138,8 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 	#if TOUCH_CONTROLS_ALLOWED
 	override function closeSubState() {
 		super.closeSubState();
-		addVirtualPad(LEFT_FULL, FREEPLAY_EDIT);
+		removeVirtualPad();
+		addVirtualPad(FULL, FREEPLAY_EDIT);
 		controls.isInSubstate = true;
 	}
 	#end
@@ -212,7 +213,7 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 			else if(#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonF.justPressed || #end FlxG.keys.justPressed.F1){
 				persistentUpdate = false;
 				#if TOUCH_CONTROLS_ALLOWED removeVirtualPad(); #end
-				openSubState(new HelpSubstate(controls.mobileC ? HelpSubstate.FREEPLAY_EDIT_TEXT_MOBILE : HelpSubstate.FREEPLAY_EDIT_TEXT));
+				openSubState(new HelpSubstate(#if mobile HelpSubstate.FREEPLAY_EDIT_TEXT_MOBILE #else HelpSubstate.FREEPLAY_EDIT_TEXT #end));
 			}
 		}
 		else

@@ -177,12 +177,12 @@ class UserErrorSubstate extends MusicBeatSubstate
                 if(isCritical) printToTrace('REPORT TO GITHUB.COM/MIKOLKA9144/P-SLICE');
                 else printToTrace('');
                 if(isCritical){
-                    if(controls.mobileC) printToTrace('TAP ANYWHERE TO RESTART');
-                    else printToTrace('PRESS ENTER TO RESTART | ESC TO QUIT');
+                    #if mobile printToTrace('TAP ANYWHERE TO RESTART');
+                    #else printToTrace('PRESS ENTER TO RESTART | ESC TO QUIT'); #end
                 }
                 else{
-                    if(controls.mobileC) printToTrace('TAP ANYWHERE TO CONTINUE');
-                    else printToTrace('PRESS ENTER TO CONTINUE');
+                    #if mobile printToTrace('TAP ANYWHERE TO CONTINUE');
+                    #else printToTrace('PRESS ENTER TO CONTINUE'); #end
                 }
                 allowClosing = true;
             });
