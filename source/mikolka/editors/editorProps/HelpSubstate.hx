@@ -62,7 +62,7 @@ class HelpSubstate extends MusicBeatSubstate {
 		add(fullTipText);
 		#if TOUCH_CONTROLS_ALLOWED
 		addVirtualPad(NONE, F);
-		_virtualpad.y -= 124;
+		_virtualpad.y -= 120;
 		#end
     }
     override function update(elapsed:Float) {

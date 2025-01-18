@@ -569,7 +569,7 @@ class Controls extends FlxActionSet
 				inline forEachBound(Control.UI_RIGHT, (action, state) -> addButtonUI(action, VirtualPad.buttonRight, state));
 				inline forEachBound(Control.ACCEPT, (action, state) -> addButtonUI(action, VirtualPad.buttonA, state));
 				inline forEachBound(Control.BACK, (action, state) -> addButtonUI(action, VirtualPad.buttonB, state));
-			case NONE | E | controlExtend | D | X_Y: // do nothing
+			case NONE | E | controlExtend | D | X_Y | FREEPLAY_EDIT: // do nothing
 			default:
 			    inline forEachBound(Control.ACCEPT, (action, state) -> addButtonUI(action, VirtualPad.buttonA, state));
 				inline forEachBound(Control.BACK, (action, state) -> addButtonUI(action, VirtualPad.buttonB, state));
