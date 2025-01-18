@@ -315,6 +315,7 @@ class CharSelectEditor extends MusicBeatState
 		var btn_dj:PsychUIButton = new PsychUIButton(150, 120, "Edit Freeplay", () ->
 		{
 			persistentUpdate = false;
+			#if TOUCH_CONTROLS_ALLOWED removeVirtualPad(); #end
 			openSubState(new FreeplayEditSubstate(activePlayer));
 		});
 
