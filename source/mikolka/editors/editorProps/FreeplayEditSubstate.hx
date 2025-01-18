@@ -203,7 +203,7 @@ class FreeplayEditSubstate extends MusicBeatSubstate
 				}
 			}
 
-			if (#if TOUCH_CONTROLS_ALLOWED touchPad.buttonB.justPressed || #end controls.BACK && loaded)
+			if (#if TOUCH_CONTROLS_ALLOWED _virtualpad.buttonB.justPressed || #end controls.BACK && loaded)
 			{
 				dj_anim.saveAnimations();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
